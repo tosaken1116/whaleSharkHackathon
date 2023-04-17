@@ -11,6 +11,7 @@ specifiers:
   '@graphql-codegen/typescript': ^3.0.3
   '@graphql-codegen/typescript-operations': ^3.0.3
   '@graphql-codegen/typescript-react-apollo': ^3.3.7
+  '@mui/icons-material': ^5.11.16
   '@mui/material': ^5.11.16
   '@types/node': 18.15.11
   '@types/react': 18.0.33
@@ -32,6 +33,7 @@ dependencies:
   '@emotion/react': 11.10.6_pofolu2o2erjq4lhyzl3hqovzq
   '@emotion/styled': 11.10.6_wk7udrqmfetfur7bcmggr6k6fm
   '@firebase/auth': 0.22.0
+  '@mui/icons-material': 5.11.16_qvn7gklc3nivno6qdfiyqqkjfe
   '@mui/material': 5.11.16_zy4fdalh3zntkbuswwsbylvxqe
   '@types/node': 18.15.11
   '@types/react': 18.0.33
@@ -1618,6 +1620,23 @@ packages:
 
   /@mui/core-downloads-tracker/5.11.16:
     resolution: {integrity: sha512-GxRfZ/HquQ/1nUc9qQVGReP6oOMS8/3QjPJ+23a7TMrxl2wjlmXrMNn7tRa30vZcGcDgEG+J0aseefUN0AoawQ==}
+    dev: false
+
+  /@mui/icons-material/5.11.16_qvn7gklc3nivno6qdfiyqqkjfe:
+    resolution: {integrity: sha512-oKkx9z9Kwg40NtcIajF9uOXhxiyTZrrm9nmIJ4UjkU2IdHpd4QVLbCc/5hZN/y0C6qzi2Zlxyr9TGddQx2vx2A==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@mui/material': 5.11.16_zy4fdalh3zntkbuswwsbylvxqe
+      '@types/react': 18.0.33
+      react: 18.2.0
     dev: false
 
   /@mui/material/5.11.16_zy4fdalh3zntkbuswwsbylvxqe:
