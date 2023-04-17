@@ -13,6 +13,7 @@
     "@apollo/client": "^3.7.11",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@firebase/auth": "^0.22.0",
     "@mui/material": "^5.11.16",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
@@ -20,9 +21,12 @@
     "axios": "^1.3.5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "i": "^0.3.7",
     "next": "13.3.0",
+    "pnpm": "^8.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-speech-recognition": "^3.10.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {
