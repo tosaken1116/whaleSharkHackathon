@@ -1,4 +1,11 @@
+import { useAuthentication } from "@/hooks";
+
 const Home = () => {
-    return <>this is index</>;
+    const { login } = useAuthentication();
+    return (
+        <>
+            <button onClick={() => login()}>click me!</button>
+        </>
+    );
 };
 export default Home;

@@ -5,12 +5,13 @@ const axios = require("axios");
 admin.initializeApp(functions.config().firebase);
 
 const createUser = `
-mutation createuser($id:String!,$email:String!){
-    insertUsersOne(object: {id: $id, email: $email}, onConflict: {constraint: users_pkey, update_columns: []}) {
-  id
-  email
-}
-}
+mutation createuser($id: String!, $email: String!) {
+    insertUsersOne(object: {id: $id, email: $email}, onConflict: {constraint: Users_pkey, updateColumns: []}) {
+      id
+      email
+    }
+  }
+
 `;
 
 exports.processSignUp = functions.auth.user().onCreate((user) => {
@@ -34,7 +35,7 @@ exports.processSignUp = functions.auth.user().onCreate((user) => {
 
             axios({
                 method: "post",
-                url: "https://flowing-squid-27.hasura.app/v1/graphql",
+                url: "https://whale-shark.hasura.app/v1/graphql",
                 data: queryStr,
                 headers: {
                     "x-hasura-admin-secret":
