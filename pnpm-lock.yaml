@@ -4,6 +4,7 @@ specifiers:
   '@apollo/client': ^3.7.11
   '@emotion/react': ^11.10.6
   '@emotion/styled': ^11.10.6
+  '@firebase/app': ^0.9.7
   '@firebase/auth': ^0.22.0
   '@graphql-codegen/cli': 3.3.0
   '@graphql-codegen/client-preset': 3.0.0
@@ -32,7 +33,8 @@ dependencies:
   '@apollo/client': 3.7.11_gdcq4dv6opitr3wbfwyjmanyra
   '@emotion/react': 11.10.6_pofolu2o2erjq4lhyzl3hqovzq
   '@emotion/styled': 11.10.6_wk7udrqmfetfur7bcmggr6k6fm
-  '@firebase/auth': 0.22.0
+  '@firebase/app': 0.9.7
+  '@firebase/auth': 0.22.0_@firebase+app@0.9.7
   '@mui/icons-material': 5.11.16_qvn7gklc3nivno6qdfiyqqkjfe
   '@mui/material': 5.11.16_zy4fdalh3zntkbuswwsbylvxqe
   '@types/node': 18.15.11
@@ -856,11 +858,22 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
-  /@firebase/auth/0.22.0:
+  /@firebase/app/0.9.7:
+    resolution: {integrity: sha512-ADnRXaW4XQF11QYYhZQEJEtOGnmLkGl2FCixCxPighLrmJmGwCZrzSFtwITd8w/EU3dRYaU5Og37VfnY+gKxGw==}
+    dependencies:
+      '@firebase/component': 0.6.4
+      '@firebase/logger': 0.4.0
+      '@firebase/util': 1.9.3
+      idb: 7.0.1
+      tslib: 2.5.0
+    dev: false
+
+  /@firebase/auth/0.22.0_@firebase+app@0.9.7:
     resolution: {integrity: sha512-4PiaDJEhJ7FNo48WG0TAlqHiCuRBXxUow2q+0emh+PhmM0cLT1UdqK1EuWWGc5CY+ztNQZUh+Yzeh+nv9tZL0w==}
     peerDependencies:
       '@firebase/app': 0.x
     dependencies:
+      '@firebase/app': 0.9.7
       '@firebase/component': 0.6.4
       '@firebase/logger': 0.4.0
       '@firebase/util': 1.9.3
@@ -3656,6 +3669,10 @@ packages:
     dependencies:
       safer-buffer: 2.1.2
     dev: true
+
+  /idb/7.0.1:
+    resolution: {integrity: sha512-UUxlE7vGWK5RfB/fDwEGgRf84DY/ieqNha6msMV99UsEMQhJ1RwbCd8AYBj3QMgnE3VZnfQvm4oKVCJTYlqIgg==}
+    dev: false
 
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
