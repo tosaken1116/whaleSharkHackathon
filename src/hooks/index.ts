@@ -1,3 +1,5 @@
+import { useRefreshMeetingLogSubscription } from "@/generates/graphql";
+import { UseMeetingLogProps } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -24,13 +26,11 @@ export const useAuthentication = () => {
     const { removeLocalStorage, setLocalStorage } = useLocalStorage();
     const auth = getAuth(app);
     const login = () => {
-        console.log("Login");
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log(user);
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
                     // router.reload();
@@ -71,4 +71,12 @@ export const useLocalStorage = () => {
         clearLocalStorage,
         removeLocalStorage,
     };
+};
+export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
+    const { data, loading, error } = useRefreshMeetingLogSubscription({
+        variables: {
+            meetingId: meetingId,
+        },
+    });
+    return { log: data?.meetingLogByPk?.log, isLoading: loading, error };
 };

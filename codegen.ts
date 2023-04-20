@@ -2,7 +2,15 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
     overwrite: true,
-    schema: "http://localhost:8080/v1/graphql",
+    schema: {
+        "https://whale-shark.hasura.app/v1/graphql": {
+            headers: {
+                "x-hasura-admin-secret": String(
+                    process.env.NEXT_PUBLIC_HASURA_GRAPHQL_ADMIN_SECRET
+                ),
+            },
+        },
+    },
     documents: "src/graphql/**/*.graphql",
     generates: {
         "src/generates/graphql.ts": {
@@ -14,6 +22,10 @@ const config: CodegenConfig = {
             config: {
                 withHooks: true,
                 withComponent: false,
+                scalars: {
+                    timestamptz: "string",
+                    uuid: "string",
+                },
             },
         },
         "./graphql.schema.json": {
