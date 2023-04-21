@@ -1,0 +1,8 @@
+mutation createRoom($owner: String!) {
+    insertMeetingLog(objects: { owner: $owner, log: "" }) {
+        affectedRows
+        returning {
+            id
+        }
+    }
+}
