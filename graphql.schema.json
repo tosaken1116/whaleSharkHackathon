@@ -91,12 +91,24 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerName",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Users",
               "ofType": null
             },
             "isDeprecated": false,
@@ -322,11 +334,23 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringComparisonExp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerName",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersBoolExp",
               "ofType": null
             },
             "defaultValue": null,
@@ -386,11 +410,23 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerName",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersObjRelInsertInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -432,7 +468,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "args": [],
             "type": {
@@ -479,7 +515,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "args": [],
             "type": {
@@ -641,11 +677,23 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "type": {
               "kind": "ENUM",
               "name": "OrderBy",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerName",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersOrderBy",
               "ofType": null
             },
             "defaultValue": null,
@@ -705,7 +753,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -744,7 +792,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -830,7 +878,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -867,7 +915,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner",
+            "name": "ownerId",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -1657,6 +1705,45 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UsersObjRelInsertInput",
+        "description": "input type for inserting object relation for remote table \"Users\"",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UsersInsertInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "onConflict",
+            "description": "upsert condition",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersOnConflict",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

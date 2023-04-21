@@ -1,5 +1,5 @@
 mutation DeleteRoom($meetingId: uuid!) {
     deleteMeetingLogByPk(id: $meetingId) {
-        owner
+        ownerId
     }
 }

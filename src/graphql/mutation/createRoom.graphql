@@ -1,5 +1,5 @@
-mutation createRoom($owner: String!) {
-    insertMeetingLogOne(object: { log: "", owner: $owner }) {
+mutation createRoom($ownerId: String!) {
+    insertMeetingLogOne(object: { log: "", ownerId: $ownerId }) {
         id
     }
 }
