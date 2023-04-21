@@ -1,3 +1,4 @@
+import Layout from "@/components/Layout";
 import { createApolloClient } from "@/libs/createClient";
 import "@/styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
@@ -10,7 +11,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <RecoilRoot>
             <ApolloProvider client={client}>
-                <Component {...pageProps} />
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </ApolloProvider>
         </RecoilRoot>
     );

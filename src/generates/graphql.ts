@@ -29,7 +29,9 @@ export type MeetingLog = {
   __typename?: 'MeetingLog';
   id: Scalars['uuid'];
   log: Scalars['String'];
-  owner?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  ownerName?: Maybe<Users>;
 };
 
 /** aggregated selection of "MeetingLog" */
@@ -61,7 +63,8 @@ export type MeetingLogBoolExp = {
   _or?: InputMaybe<Array<MeetingLogBoolExp>>;
   id?: InputMaybe<UuidComparisonExp>;
   log?: InputMaybe<StringComparisonExp>;
-  owner?: InputMaybe<StringComparisonExp>;
+  ownerId?: InputMaybe<StringComparisonExp>;
+  ownerName?: InputMaybe<UsersBoolExp>;
 };
 
 /** unique or primary key constraints on table "MeetingLog" */
@@ -74,7 +77,8 @@ export enum MeetingLogConstraint {
 export type MeetingLogInsertInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
-  owner?: InputMaybe<Scalars['String']>;
+  ownerId?: InputMaybe<Scalars['String']>;
+  ownerName?: InputMaybe<UsersObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -82,7 +86,7 @@ export type MeetingLogMaxFields = {
   __typename?: 'MeetingLogMaxFields';
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -90,7 +94,7 @@ export type MeetingLogMinFields = {
   __typename?: 'MeetingLogMinFields';
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "MeetingLog" */
@@ -113,7 +117,8 @@ export type MeetingLogOnConflict = {
 export type MeetingLogOrderBy = {
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<OrderBy>;
+  ownerId?: InputMaybe<OrderBy>;
+  ownerName?: InputMaybe<UsersOrderBy>;
 };
 
 /** primary key columns input for table: MeetingLog */
@@ -128,14 +133,14 @@ export enum MeetingLogSelectColumn {
   /** column name */
   Log = 'log',
   /** column name */
-  Owner = 'owner'
+  OwnerId = 'ownerId'
 }
 
 /** input type for updating data in table "MeetingLog" */
 export type MeetingLogSetInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
-  owner?: InputMaybe<Scalars['String']>;
+  ownerId?: InputMaybe<Scalars['String']>;
 };
 
 /** Streaming cursor of the table "MeetingLog" */
@@ -150,7 +155,7 @@ export type MeetingLogStreamCursorInput = {
 export type MeetingLogStreamCursorValueInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
-  owner?: InputMaybe<Scalars['String']>;
+  ownerId?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "MeetingLog" */
@@ -160,7 +165,7 @@ export enum MeetingLogUpdateColumn {
   /** column name */
   Log = 'log',
   /** column name */
-  Owner = 'owner'
+  OwnerId = 'ownerId'
 }
 
 export type MeetingLogUpdates = {
@@ -290,6 +295,13 @@ export type UsersMutationResponse = {
   affectedRows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Users>;
+};
+
+/** input type for inserting object relation for remote table "Users" */
+export type UsersObjRelInsertInput = {
+  data: UsersInsertInput;
+  /** upsert condition */
+  onConflict?: InputMaybe<UsersOnConflict>;
 };
 
 /** on_conflict condition type for table "Users" */
@@ -634,7 +646,7 @@ export type Subscription_RootUsersStreamArgs = {
 };
 
 export type CreateRoomMutationVariables = Exact<{
-  owner: Scalars['String'];
+  ownerId: Scalars['String'];
 }>;
 
 
@@ -645,7 +657,7 @@ export type DeleteRoomMutationVariables = Exact<{
 }>;
 
 
-export type DeleteRoomMutation = { __typename?: 'mutation_root', deleteMeetingLogByPk?: { __typename?: 'MeetingLog', owner?: string | null } | null };
+export type DeleteRoomMutation = { __typename?: 'mutation_root', deleteMeetingLogByPk?: { __typename?: 'MeetingLog', ownerId?: string | null } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -664,8 +676,8 @@ export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', 
 
 
 export const CreateRoomDocument = gql`
-    mutation createRoom($owner: String!) {
-  insertMeetingLogOne(object: {log: "", owner: $owner}) {
+    mutation createRoom($ownerId: String!) {
+  insertMeetingLogOne(object: {log: "", ownerId: $ownerId}) {
     id
   }
 }
@@ -685,7 +697,7 @@ export type CreateRoomMutationFn = Apollo.MutationFunction<CreateRoomMutation, C
  * @example
  * const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation({
  *   variables: {
- *      owner: // value for 'owner'
+ *      ownerId: // value for 'ownerId'
  *   },
  * });
  */
@@ -699,7 +711,7 @@ export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<CreateRoomMut
 export const DeleteRoomDocument = gql`
     mutation DeleteRoom($meetingId: uuid!) {
   deleteMeetingLogByPk(id: $meetingId) {
-    owner
+    ownerId
   }
 }
     `;
