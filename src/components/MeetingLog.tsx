@@ -1,8 +1,10 @@
 import { useMeetingLog } from "@/hooks";
-import { UseMeetingLogProps } from "@/types";
+import { meetingAtom } from "@/state/meetingAtom";
 import { Alert, CircularProgress } from "@mui/material";
+import { useRecoilValue } from "recoil";
 
-export default function MeetingLog({ meetingId }: UseMeetingLogProps) {
+export default function MeetingLog() {
+    const { meetingId } = useRecoilValue(meetingAtom);
     const { log, isLoading, error } = useMeetingLog({ meetingId });
     if (isLoading) {
         <CircularProgress />;

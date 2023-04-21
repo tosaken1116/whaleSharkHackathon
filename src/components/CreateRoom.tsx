@@ -1,15 +1,23 @@
 import { useCreateRoomMutation } from "@/generates/graphql";
+import { meetingAtom } from "@/state/meetingAtom";
+import { userAtom } from "@/state/userAtom";
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function CreateRoom() {
-    const [meetingId, setMeetingId] = useState();
-    const [createRoom] = useCreateRoomMutation({
-        variables: { owner: "hoge" },
+    const [, setMeetingState] = useRecoilState(meetingAtom);
+    const { userId } = useRecoilValue(userAtom);
+    const [createRoom, { error }] = useCreateRoomMutation({
+        variables: { owner: userId },
     });
-    const handleMakeRoom = () => {
-        const result = createRoom();
-        console.log(result);
+    const handleMakeRoom = async () => {
+        const result = await createRoom();
+        if (userId == "") {
+            return;
+        }
+        setMeetingState({
+            meetingId: result?.data?.insertMeetingLogOne?.id ?? "",
+        });
     };
     return (
         <Box>

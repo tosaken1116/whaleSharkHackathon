@@ -638,7 +638,7 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 
-export type CreateRoomMutation = { __typename?: 'mutation_root', insertMeetingLog?: { __typename?: 'MeetingLogMutationResponse', affectedRows: number, returning: Array<{ __typename?: 'MeetingLog', id: string }> } | null };
+export type CreateRoomMutation = { __typename?: 'mutation_root', insertMeetingLogOne?: { __typename?: 'MeetingLog', id: string } | null };
 
 export type DeleteRoomMutationVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -665,11 +665,8 @@ export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', 
 
 export const CreateRoomDocument = gql`
     mutation createRoom($owner: String!) {
-  insertMeetingLog(objects: {owner: $owner, log: ""}) {
-    affectedRows
-    returning {
-      id
-    }
+  insertMeetingLogOne(object: {log: "", owner: $owner}) {
+    id
   }
 }
     `;
