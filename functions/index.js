@@ -5,8 +5,8 @@ const axios = require("axios");
 admin.initializeApp(functions.config().firebase);
 
 const createUser = `
-mutation createuser($id: String!, $email: String!) {
-    insertUsersOne(object: {id: $id, email: $email}, onConflict: {constraint: Users_pkey, updateColumns: []}) {
+mutation createuser($id: String!, $email: String!, $iconPath: String!, $userName: String!) {
+    insertUsersOne(object: {id: $id, email: $email, userName: $userName, iconPath: $iconPath}, onConflict: {constraint: Users_pkey, updateColumns: []}) {
       id
       email
     }
@@ -30,7 +30,12 @@ exports.processSignUp = functions.auth.user().onCreate((user) => {
         .then(() => {
             let queryStr = {
                 query: createUser,
-                variables: { id: user.uid, email: user.email },
+                variables: {
+                    id: user.uid,
+                    email: user.email,
+                    iconPath: user.photoURL,
+                    userName: user.displayName,
+                },
             };
 
             axios({
