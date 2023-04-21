@@ -1,4 +1,5 @@
 import { useRefreshMeetingLogSubscription } from "@/generates/graphql";
+import { userAtom } from "@/state/userAtom";
 import { UseMeetingLogProps } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
@@ -9,9 +10,11 @@ import {
     signOut,
 } from "@firebase/auth";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 
 export const useAuthentication = () => {
     const router = useRouter();
+    const [userState, setUserState] = useRecoilState(userAtom);
     const firebaseConfig = {
         apiKey: process.env.NEXT_PUBLIC_APIKEY,
         authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
@@ -31,6 +34,9 @@ export const useAuthentication = () => {
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                setUserState({
+                    userId: user.uid,
+                });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
                     // router.reload();
