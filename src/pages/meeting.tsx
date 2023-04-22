@@ -1,7 +1,7 @@
-import InviteUserForm from "@/components/InviteUserForm";
-import MeetingLog from "@/components/MeetingLog";
-import MeetingUsers from "@/components/MeetingUsers";
-import SpeechRecognitionComponent from "@/components/Speech";
+import MeetingLog from "@/components/Meeting/MeetingLog";
+import MeetingUsers from "@/components/Meeting/MeetingUsers";
+import SpeechRecognitionComponent from "@/components/Meeting/Speech";
+import InviteUserForm from "@/components/Room/InviteUserForm";
 import { useMeetingLog, useUserStatus } from "@/hooks";
 import { Grid, Stack } from "@mui/material";
 

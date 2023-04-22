@@ -1,17 +1,16 @@
-import React from "react";
-import { useState } from "react";
 import { useAuthentication } from "@/hooks";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
+    AppBar,
     Box,
     Button,
-    Typography,
-    Toolbar,
     CssBaseline,
     IconButton,
-    AppBar,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
 import SideBar from "./SideBar";
 
 const drawerWidth = 240;

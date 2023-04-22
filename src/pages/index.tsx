@@ -1,7 +1,7 @@
-import CreateRoom from "@/components/CreateRoom";
-import DeleteRoom from "@/components/DeleteRoom";
-import Header from "@/components/Header";
-import InviteUserForm from "@/components/InviteUserForm";
+import Header from "@/components/Common/Header";
+import CreateRoom from "@/components/Room/CreateRoom";
+import DeleteRoom from "@/components/Room/DeleteRoom";
+import InviteUserForm from "@/components/Room/InviteUserForm";
 
 const Home = () => {
     return (
