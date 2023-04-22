@@ -16,7 +16,6 @@ export const useChatGPT = () => {
     var isCorrecting = false;
     const getCorrectedText = async (unCorrectedText: string) => {
         if (unCorrectedText != "" && !isCorrecting) {
-            console.log("inif");
             isCorrecting = true;
             try {
                 const response = await axios.post("/api/correction", {
@@ -50,7 +49,11 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
     const [userState, setUserState] = useRecoilState(userAtom);
     if (!userState.isLogin) {
         const userId = getLocalStorage("userId") ?? "";
-        setUserState({ userId: userId, isLogin: Boolean(userId) });
+        setUserState({
+            ...userState,
+            userId: userId,
+            isLogin: Boolean(userId),
+        });
     }
     if (!userState.userId && redirect && router.isReady) {
         router.push("/");
@@ -63,7 +66,7 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
             setIsLoading(false);
         }
     }, [router.isReady]);
-    return { ...userState, userName: data?.usersByPk?.userName };
+    return { ...userState, ...data?.usersByPk };
 };
 export const useLogModal = () => {
     const [, setLogModalState] = useRecoilState(logModalAtom);
@@ -125,22 +128,4 @@ export const useLocalStorage = () => {
         clearLocalStorage,
         removeLocalStorage,
     };
-};
-
-export const useInitializeUser = () => {
-    const [userState, setUserState] = useRecoilState(userAtom);
-    const { getLocalStorage } = useLocalStorage();
-    const initialize = () => {
-        if (!userState.isLogin) {
-            setUserState({
-                ...userState,
-                userId: getLocalStorage("userId") ?? "",
-            });
-        }
-        if (userState.userId !== "") {
-            setUserState({ ...userState, isLogin: true });
-        }
-        return userState.isLogin;
-    };
-    return { initialize };
 };

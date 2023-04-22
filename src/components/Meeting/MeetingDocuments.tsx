@@ -1,5 +1,5 @@
 import { MeetingLog, useGetMeetingDocumentsQuery } from "@/generates/graphql";
-import { useInitializeUser, useLoading } from "@/hooks/client";
+import { useLoading } from "@/hooks/client";
 import { userAtom } from "@/state/userAtom";
 import ArticleIcon from "@mui/icons-material/Article";
 import { Box, Button, List, ListItem, Slide, Typography } from "@mui/material";
@@ -19,10 +19,6 @@ const DocumentCard = ({
 
 export default function MeetingDocuments() {
     const { userId } = useRecoilValue(userAtom);
-    const { initialize } = useInitializeUser();
-    if (!userId) {
-        initialize();
-    }
     const { data, loading } = useGetMeetingDocumentsQuery({
         variables: { userId },
     });
