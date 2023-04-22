@@ -4,5 +4,6 @@ export const userAtom = atom({
     key: "userAtom",
     default: {
         userId: "",
+        isLogin: false,
     },
 });

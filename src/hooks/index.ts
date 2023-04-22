@@ -43,6 +43,7 @@ export const useAuthentication = () => {
             if (user) {
                 setUserState({
                     userId: user.uid,
+                    isLogin: true,
                 });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
@@ -65,7 +66,7 @@ export const useLocalStorage = () => {
             const value = localStorage.getItem(key);
             return value;
         }
-        return null;
+        return undefined;
     };
     const setLocalStorage = (setValue: object) => {
         Object.entries(setValue).map(([key, value]) => {
@@ -150,4 +151,17 @@ export const useLogModal = () => {
         });
     };
     return { errorHandle, successHandle };
+};
+export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
+    const router = useRouter();
+    const { getLocalStorage } = useLocalStorage();
+    const [userState, setUserState] = useRecoilState(userAtom);
+    if (!userState.isLogin) {
+        const userId = getLocalStorage("userId") ?? "";
+        setUserState({ userId: userId, isLogin: Boolean(userId) });
+    }
+    if (!userState.userId && redirect) {
+        router.push("/");
+    }
+    return { ...userState };
 };

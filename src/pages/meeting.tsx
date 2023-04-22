@@ -2,10 +2,11 @@ import InviteUserForm from "@/components/InviteUserForm";
 import MeetingLog from "@/components/MeetingLog";
 import MeetingUsers from "@/components/MeetingUsers";
 import SpeechRecognitionComponent from "@/components/Speech";
-import { useMeetingLog } from "@/hooks";
+import { useMeetingLog, useUserStatus } from "@/hooks";
 import { Grid, Stack } from "@mui/material";
 
 export default function Meeting() {
+    useUserStatus({ redirect: true });
     const { meetingUsers, log } = useMeetingLog();
     return (
         <Grid container spacing={2}>
