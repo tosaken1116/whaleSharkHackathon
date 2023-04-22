@@ -1,5 +1,6 @@
 import {
     useGetMeetingLogQuery,
+    useGetUserNameQuery,
     useRefreshMeetingLogSubscription,
 } from "@/generates/graphql";
 import { loadingModalAtom } from "@/state/loadingModalAtom";
@@ -154,14 +155,24 @@ export const useLogModal = () => {
 };
 export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+    useLoading({ message: "準備中...", isLoading: isLoading });
     const { getLocalStorage } = useLocalStorage();
     const [userState, setUserState] = useRecoilState(userAtom);
     if (!userState.isLogin) {
         const userId = getLocalStorage("userId") ?? "";
         setUserState({ userId: userId, isLogin: Boolean(userId) });
     }
-    if (!userState.userId && redirect) {
+    if (!userState.userId && redirect && router.isReady) {
         router.push("/");
     }
-    return { ...userState };
+    const { data } = useGetUserNameQuery({
+        variables: { userId: userState.userId },
+    });
+    useEffect(() => {
+        if (router.isReady) {
+            setIsLoading(false);
+        }
+    }, [router.isReady]);
+    return { ...userState, userName: data?.usersByPk?.userName };
 };

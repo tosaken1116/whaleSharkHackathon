@@ -551,7 +551,7 @@ export type UsersBoolExp = {
 
 /** unique or primary key constraints on table "Users" */
 export enum UsersConstraint {
-  /** unique or primary key constraint on columns "email" */
+  /** unique or primary key constraint on columns "id" */
   UsersPkey = 'Users_pkey'
 }
 
@@ -614,7 +614,7 @@ export type UsersOrderBy = {
 
 /** primary key columns input for table: Users */
 export type UsersPkColumnsInput = {
-  email: Scalars['String'];
+  id: Scalars['String'];
 };
 
 /** select columns of table "Users" */
@@ -772,7 +772,7 @@ export type Mutation_RootDeleteUsersArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteUsersByPkArgs = {
-  email: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -965,7 +965,7 @@ export type Query_RootUsersAggregateArgs = {
 
 
 export type Query_RootUsersByPkArgs = {
-  email: Scalars['String'];
+  id: Scalars['String'];
 };
 
 export type Subscription_Root = {
@@ -1076,7 +1076,7 @@ export type Subscription_RootUsersAggregateArgs = {
 
 
 export type Subscription_RootUsersByPkArgs = {
-  email: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -1085,6 +1085,14 @@ export type Subscription_RootUsersStreamArgs = {
   cursor: Array<InputMaybe<UsersStreamCursorInput>>;
   where?: InputMaybe<UsersBoolExp>;
 };
+
+export type UpdateUserNameMutationVariables = Exact<{
+  userId: Scalars['String'];
+  userName: Scalars['String'];
+}>;
+
+
+export type UpdateUserNameMutation = { __typename?: 'mutation_root', updateUsersByPk?: { __typename?: 'Users', userName?: string | null } | null };
 
 export type CreateRoomMutationVariables = Exact<{
   ownerId: Scalars['String'];
@@ -1123,6 +1131,13 @@ export type GetMeetingLogQueryVariables = Exact<{
 
 export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
+export type GetUserNameQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type GetUserNameQuery = { __typename?: 'query_root', usersByPk?: { __typename?: 'Users', userName?: string | null } | null };
+
 export type RefreshMeetingLogSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
@@ -1131,6 +1146,40 @@ export type RefreshMeetingLogSubscriptionVariables = Exact<{
 export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 
+export const UpdateUserNameDocument = gql`
+    mutation updateUserName($userId: String!, $userName: String!) {
+  updateUsersByPk(pkColumns: {id: $userId}, _set: {userName: $userName}) {
+    userName
+  }
+}
+    `;
+export type UpdateUserNameMutationFn = Apollo.MutationFunction<UpdateUserNameMutation, UpdateUserNameMutationVariables>;
+
+/**
+ * __useUpdateUserNameMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserNameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserNameMutation, { data, loading, error }] = useUpdateUserNameMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useUpdateUserNameMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserNameMutation, UpdateUserNameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserNameMutation, UpdateUserNameMutationVariables>(UpdateUserNameDocument, options);
+      }
+export type UpdateUserNameMutationHookResult = ReturnType<typeof useUpdateUserNameMutation>;
+export type UpdateUserNameMutationResult = Apollo.MutationResult<UpdateUserNameMutation>;
+export type UpdateUserNameMutationOptions = Apollo.BaseMutationOptions<UpdateUserNameMutation, UpdateUserNameMutationVariables>;
 export const CreateRoomDocument = gql`
     mutation createRoom($ownerId: String!) {
   insertMeetingLogOne(object: {log: "", ownerId: $ownerId}) {
@@ -1307,6 +1356,41 @@ export function useGetMeetingLogLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMeetingLogQueryHookResult = ReturnType<typeof useGetMeetingLogQuery>;
 export type GetMeetingLogLazyQueryHookResult = ReturnType<typeof useGetMeetingLogLazyQuery>;
 export type GetMeetingLogQueryResult = Apollo.QueryResult<GetMeetingLogQuery, GetMeetingLogQueryVariables>;
+export const GetUserNameDocument = gql`
+    query getUserName($userId: String!) {
+  usersByPk(id: $userId) {
+    userName
+  }
+}
+    `;
+
+/**
+ * __useGetUserNameQuery__
+ *
+ * To run a query within a React component, call `useGetUserNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserNameQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetUserNameQuery(baseOptions: Apollo.QueryHookOptions<GetUserNameQuery, GetUserNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserNameQuery, GetUserNameQueryVariables>(GetUserNameDocument, options);
+      }
+export function useGetUserNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserNameQuery, GetUserNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserNameQuery, GetUserNameQueryVariables>(GetUserNameDocument, options);
+        }
+export type GetUserNameQueryHookResult = ReturnType<typeof useGetUserNameQuery>;
+export type GetUserNameLazyQueryHookResult = ReturnType<typeof useGetUserNameLazyQuery>;
+export type GetUserNameQueryResult = Apollo.QueryResult<GetUserNameQuery, GetUserNameQueryVariables>;
 export const RefreshMeetingLogDocument = gql`
     subscription RefreshMeetingLog($meetingId: uuid!) {
   meetingLogByPk(id: $meetingId) {
