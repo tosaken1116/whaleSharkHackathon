@@ -1,0 +1,11 @@
+query GetInvitedMeeting($userId: String!) {
+    meetingUsers(where: { userDetail: { id: { _eq: $userId } } }) {
+        meetingDetail {
+            ownerDetail {
+                iconPath
+                userName
+            }
+        }
+        meetingId
+    }
+}

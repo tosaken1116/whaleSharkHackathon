@@ -374,7 +374,7 @@
           },
           {
             "name": "meetingUsers",
-            "description": "fetch data from the table: \"MeetingUsers\"",
+            "description": "An array relationship",
             "args": [
               {
                 "name": "distinctOn",
@@ -475,7 +475,7 @@
           },
           {
             "name": "meetingUsersAggregate",
-            "description": "fetch aggregated fields from the table: \"MeetingUsers\"",
+            "description": "An aggregate relationship",
             "args": [
               {
                 "name": "distinctOn",
@@ -562,6 +562,18 @@
                 "name": "MeetingUsersAggregate",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerDetail",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Users",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -846,6 +858,18 @@
             "deprecationReason": null
           },
           {
+            "name": "ownerDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersBoolExp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "ownerId",
             "description": null,
             "type": {
@@ -939,6 +963,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "MeetingUsersArrRelInsertInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersObjRelInsertInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1145,6 +1181,45 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "MeetingLogObjRelInsertInput",
+        "description": "input type for inserting object relation for remote table \"MeetingLog\"",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "MeetingLogInsertInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "onConflict",
+            "description": "upsert condition",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MeetingLogOnConflict",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "MeetingLogOnConflict",
         "description": "on_conflict condition type for table \"MeetingLog\"",
         "fields": null,
@@ -1254,6 +1329,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "MeetingUsersAggregateOrderBy",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ownerDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UsersOrderBy",
               "ofType": null
             },
             "defaultValue": null,
@@ -1652,6 +1739,18 @@
             "deprecationReason": null
           },
           {
+            "name": "meetingDetail",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MeetingLog",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "meetingId",
             "description": null,
             "args": [],
@@ -2028,6 +2127,18 @@
             "deprecationReason": null
           },
           {
+            "name": "meetingDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MeetingLogBoolExp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "meetingId",
             "description": null,
             "type": {
@@ -2109,6 +2220,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "meetingDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MeetingLogObjRelInsertInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -2530,6 +2653,18 @@
             "type": {
               "kind": "ENUM",
               "name": "OrderBy",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "meetingDetail",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MeetingLogOrderBy",
               "ofType": null
             },
             "defaultValue": null,
@@ -6502,7 +6637,7 @@
           },
           {
             "name": "meetingUsers",
-            "description": "fetch data from the table: \"MeetingUsers\"",
+            "description": "An array relationship",
             "args": [
               {
                 "name": "distinctOn",
@@ -6603,7 +6738,7 @@
           },
           {
             "name": "meetingUsersAggregate",
-            "description": "fetch aggregated fields from the table: \"MeetingUsers\"",
+            "description": "An aggregate relationship",
             "args": [
               {
                 "name": "distinctOn",
@@ -7255,7 +7390,7 @@
           },
           {
             "name": "meetingUsers",
-            "description": "fetch data from the table: \"MeetingUsers\"",
+            "description": "An array relationship",
             "args": [
               {
                 "name": "distinctOn",
@@ -7356,7 +7491,7 @@
           },
           {
             "name": "meetingUsersAggregate",
-            "description": "fetch aggregated fields from the table: \"MeetingUsers\"",
+            "description": "An aggregate relationship",
             "args": [
               {
                 "name": "distinctOn",

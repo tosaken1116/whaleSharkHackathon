@@ -20,8 +20,9 @@ const SpeechRecognitionComponent = () => {
             meetingId: meetingId,
             updateLog: data,
         },
-        onError: (e) =>
-            errorHandle({ message: `議事録の動機に失敗しました:${e}` }),
+        onError: (e) => {
+            errorHandle({ message: `議事録の同期に失敗しました:${e}` });
+        },
     });
     const handleListen = () => {
         if (isRecording) {

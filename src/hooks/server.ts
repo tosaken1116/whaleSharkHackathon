@@ -2,8 +2,8 @@ import {
     useGetMeetingLogQuery,
     useRefreshMeetingLogSubscription,
 } from "@/generates/graphql";
-import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
+import { UseMeetingLogProps } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -14,30 +14,38 @@ import {
 } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useLocalStorage, useLogModal } from "./client";
 
-export const useMeetingLog = () => {
-    const { meetingId } = useRecoilValue(meetingAtom);
+export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
+    const router = useRouter();
     const { errorHandle } = useLogModal();
 
     const { data: initialLog } = useGetMeetingLogQuery({
         variables: {
             meetingId: meetingId,
         },
-        onError: (e) =>
-            errorHandle({ message: `議事録の取得に失敗しました:${e}` }),
+        onError: (e) => {
+            if (meetingId != "") {
+                errorHandle({ message: `議事録の取得に失敗しました:${e}` });
+            }
+        },
     });
     const [{ log, meetingUsers }, setMeeting] = useState({
         log: initialLog?.meetingLogByPk?.log,
         meetingUsers: initialLog?.meetingLogByPk?.meetingUsers,
     });
+
     const { data } = useRefreshMeetingLogSubscription({
         variables: {
             meetingId: meetingId,
         },
-        onError: (e) =>
-            errorHandle({ message: `議事録の同期に失敗しました:${e}` }),
+        onError: (e) => {
+            if (meetingId != "") {
+                console.log(e);
+                errorHandle({ message: `議事録の同期に失敗しました:${e}` });
+            }
+        },
     });
     useEffect(() => {
         setMeeting({

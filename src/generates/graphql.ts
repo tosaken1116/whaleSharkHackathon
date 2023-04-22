@@ -58,10 +58,12 @@ export type MeetingLog = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   log: Scalars['String'];
-  /** fetch data from the table: "MeetingUsers" */
+  /** An array relationship */
   meetingUsers: Array<MeetingUsers>;
-  /** fetch aggregated fields from the table: "MeetingUsers" */
+  /** An aggregate relationship */
   meetingUsersAggregate: MeetingUsersAggregate;
+  /** An object relationship */
+  ownerDetail?: Maybe<Users>;
   ownerId?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['bytea']>;
 };
@@ -118,6 +120,7 @@ export type MeetingLogBoolExp = {
   log?: InputMaybe<StringComparisonExp>;
   meetingUsers?: InputMaybe<MeetingUsersBoolExp>;
   meetingUsersAggregate?: InputMaybe<MeetingUsersAggregateBoolExp>;
+  ownerDetail?: InputMaybe<UsersBoolExp>;
   ownerId?: InputMaybe<StringComparisonExp>;
   password?: InputMaybe<ByteaComparisonExp>;
 };
@@ -134,6 +137,7 @@ export type MeetingLogInsertInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   meetingUsers?: InputMaybe<MeetingUsersArrRelInsertInput>;
+  ownerDetail?: InputMaybe<UsersObjRelInsertInput>;
   ownerId?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['bytea']>;
 };
@@ -165,6 +169,13 @@ export type MeetingLogMutationResponse = {
   returning: Array<MeetingLog>;
 };
 
+/** input type for inserting object relation for remote table "MeetingLog" */
+export type MeetingLogObjRelInsertInput = {
+  data: MeetingLogInsertInput;
+  /** upsert condition */
+  onConflict?: InputMaybe<MeetingLogOnConflict>;
+};
+
 /** on_conflict condition type for table "MeetingLog" */
 export type MeetingLogOnConflict = {
   constraint: MeetingLogConstraint;
@@ -178,6 +189,7 @@ export type MeetingLogOrderBy = {
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
   meetingUsersAggregate?: InputMaybe<MeetingUsersAggregateOrderBy>;
+  ownerDetail?: InputMaybe<UsersOrderBy>;
   ownerId?: InputMaybe<OrderBy>;
   password?: InputMaybe<OrderBy>;
 };
@@ -253,6 +265,8 @@ export type MeetingUsers = {
   __typename?: 'MeetingUsers';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
+  /** An object relationship */
+  meetingDetail?: Maybe<MeetingLog>;
   meetingId?: Maybe<Scalars['uuid']>;
   /** An object relationship */
   userDetail?: Maybe<Users>;
@@ -306,6 +320,7 @@ export type MeetingUsersBoolExp = {
   _or?: InputMaybe<Array<MeetingUsersBoolExp>>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
+  meetingDetail?: InputMaybe<MeetingLogBoolExp>;
   meetingId?: InputMaybe<UuidComparisonExp>;
   userDetail?: InputMaybe<UsersBoolExp>;
   userEmail?: InputMaybe<StringComparisonExp>;
@@ -321,6 +336,7 @@ export enum MeetingUsersConstraint {
 export type MeetingUsersInsertInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
+  meetingDetail?: InputMaybe<MeetingLogObjRelInsertInput>;
   meetingId?: InputMaybe<Scalars['uuid']>;
   userDetail?: InputMaybe<UsersObjRelInsertInput>;
   userEmail?: InputMaybe<Scalars['String']>;
@@ -380,6 +396,7 @@ export type MeetingUsersOnConflict = {
 export type MeetingUsersOrderBy = {
   createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
+  meetingDetail?: InputMaybe<MeetingLogOrderBy>;
   meetingId?: InputMaybe<OrderBy>;
   userDetail?: InputMaybe<UsersOrderBy>;
   userEmail?: InputMaybe<OrderBy>;
@@ -885,9 +902,9 @@ export type Query_Root = {
   meetingLogAggregate: MeetingLogAggregate;
   /** fetch data from the table: "MeetingLog" using primary key columns */
   meetingLogByPk?: Maybe<MeetingLog>;
-  /** fetch data from the table: "MeetingUsers" */
+  /** An array relationship */
   meetingUsers: Array<MeetingUsers>;
-  /** fetch aggregated fields from the table: "MeetingUsers" */
+  /** An aggregate relationship */
   meetingUsersAggregate: MeetingUsersAggregate;
   /** fetch data from the table: "MeetingUsers" using primary key columns */
   meetingUsersByPk?: Maybe<MeetingUsers>;
@@ -978,9 +995,9 @@ export type Subscription_Root = {
   meetingLogByPk?: Maybe<MeetingLog>;
   /** fetch data from the table in a streaming manner: "MeetingLog" */
   meetingLogStream: Array<MeetingLog>;
-  /** fetch data from the table: "MeetingUsers" */
+  /** An array relationship */
   meetingUsers: Array<MeetingUsers>;
-  /** fetch aggregated fields from the table: "MeetingUsers" */
+  /** An aggregate relationship */
   meetingUsersAggregate: MeetingUsersAggregate;
   /** fetch data from the table: "MeetingUsers" using primary key columns */
   meetingUsersByPk?: Maybe<MeetingUsers>;
@@ -1123,6 +1140,13 @@ export type UpdateMeetingMutationVariables = Exact<{
 
 
 export type UpdateMeetingMutation = { __typename?: 'mutation_root', updateMeetingLogByPk?: { __typename?: 'MeetingLog', log: string } | null };
+
+export type GetInvitedMeetingQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type GetInvitedMeetingQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
 
 export type GetMeetingLogQueryVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -1314,6 +1338,47 @@ export function useUpdateMeetingMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateMeetingMutationHookResult = ReturnType<typeof useUpdateMeetingMutation>;
 export type UpdateMeetingMutationResult = Apollo.MutationResult<UpdateMeetingMutation>;
 export type UpdateMeetingMutationOptions = Apollo.BaseMutationOptions<UpdateMeetingMutation, UpdateMeetingMutationVariables>;
+export const GetInvitedMeetingDocument = gql`
+    query GetInvitedMeeting($userId: String!) {
+  meetingUsers(where: {userDetail: {id: {_eq: $userId}}}) {
+    meetingDetail {
+      ownerDetail {
+        iconPath
+        userName
+      }
+    }
+    meetingId
+  }
+}
+    `;
+
+/**
+ * __useGetInvitedMeetingQuery__
+ *
+ * To run a query within a React component, call `useGetInvitedMeetingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetInvitedMeetingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetInvitedMeetingQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetInvitedMeetingQuery(baseOptions: Apollo.QueryHookOptions<GetInvitedMeetingQuery, GetInvitedMeetingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetInvitedMeetingQuery, GetInvitedMeetingQueryVariables>(GetInvitedMeetingDocument, options);
+      }
+export function useGetInvitedMeetingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetInvitedMeetingQuery, GetInvitedMeetingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetInvitedMeetingQuery, GetInvitedMeetingQueryVariables>(GetInvitedMeetingDocument, options);
+        }
+export type GetInvitedMeetingQueryHookResult = ReturnType<typeof useGetInvitedMeetingQuery>;
+export type GetInvitedMeetingLazyQueryHookResult = ReturnType<typeof useGetInvitedMeetingLazyQuery>;
+export type GetInvitedMeetingQueryResult = Apollo.QueryResult<GetInvitedMeetingQuery, GetInvitedMeetingQueryVariables>;
 export const GetMeetingLogDocument = gql`
     query GetMeetingLog($meetingId: uuid!) {
   meetingLogByPk(id: $meetingId) {
