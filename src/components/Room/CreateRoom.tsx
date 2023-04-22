@@ -1,6 +1,5 @@
 import { useCreateRoomMutation } from "@/generates/graphql";
-import { useLoading, useLogModal } from "@/hooks/client";
-import { logModalAtom } from "@/state/logModalAtom";
+import { useInitializeUser, useLoading, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
 import { Box, Button } from "@mui/material";
@@ -11,6 +10,8 @@ export default function CreateRoom() {
     const router = useRouter();
     const [, setMeetingState] = useRecoilState(meetingAtom);
     const { userId } = useRecoilValue(userAtom);
+    const { initialize } = useInitializeUser();
+
     const { errorHandle, successHandle } = useLogModal();
     const [createRoom, { loading }] = useCreateRoomMutation({
         variables: { ownerId: userId },
@@ -23,8 +24,11 @@ export default function CreateRoom() {
     });
     const handleMakeRoom = async () => {
         if (userId == "") {
-            errorHandle({ message: "ログインしていません" });
-            return;
+            const result = initialize();
+            if (result) {
+                errorHandle({ message: "ログインしていません" });
+                return;
+            }
         }
         const result = await createRoom();
         setMeetingState({

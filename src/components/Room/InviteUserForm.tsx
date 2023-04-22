@@ -1,5 +1,5 @@
 import { useInviteMeetingUserMutation } from "@/generates/graphql";
-import { useLoading, useLogModal } from "@/hooks";
+import { useLoading, useLogModal } from "@/hooks/client";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
@@ -10,7 +10,6 @@ export default function InviteUserForm() {
     const [inviteEmail, setInviteEmail] = useState("");
     const { meetingId } = useRecoilValue(meetingAtom);
     const [, setLogModalState] = useRecoilState(logModalAtom);
-
     const { errorHandle, successHandle } = useLogModal();
     const [inviteUser, { data, loading }] = useInviteMeetingUserMutation({
         variables: {
