@@ -187,7 +187,6 @@ export const useChatGPT = () => {
     });
     const getCorrectedText = async (unCorrectedText: string) => {
         if (!isCorrecting) {
-            console.log(isCorrecting);
             setData({ ...{ data, error }, isCorrecting: true });
             const setChatLog: chatType[] = [
                 ...chatLogState.chatLog,
@@ -203,7 +202,6 @@ export const useChatGPT = () => {
                 const response = await axios.post("/api/correction", {
                     messages: setChatLog,
                 });
-                console.log(response);
                 setChatLogState({
                     chatLog: [
                         ...chatLogState.chatLog,

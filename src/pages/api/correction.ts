@@ -13,9 +13,7 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     if (req.method == "POST") {
-        console.log("================================inif");
         const { messages } = req.body;
-        console.log(messages);
         try {
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -35,11 +33,8 @@ export default async function handler(
                 .status(200)
                 .json({ messages: response.data.choices[0].message });
         } catch (error) {
-            console.log("================================================");
-            console.log(error);
-            console.log("================================================");
             res.status(500).json({
-                errorMessage: "Internal Server Error",
+                errorMessage: `Internal Server Error:${error}`,
                 messages: undefined,
             });
         }
