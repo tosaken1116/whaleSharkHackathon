@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  timestamptz: string;
   uuid: string;
 };
 
@@ -27,6 +28,7 @@ export enum CursorOrdering {
 /** columns and relationships of "MeetingLog" */
 export type MeetingLog = {
   __typename?: 'MeetingLog';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   log: Scalars['String'];
   ownerId?: Maybe<Scalars['String']>;
@@ -61,6 +63,7 @@ export type MeetingLogBoolExp = {
   _and?: InputMaybe<Array<MeetingLogBoolExp>>;
   _not?: InputMaybe<MeetingLogBoolExp>;
   _or?: InputMaybe<Array<MeetingLogBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   log?: InputMaybe<StringComparisonExp>;
   ownerId?: InputMaybe<StringComparisonExp>;
@@ -75,6 +78,7 @@ export enum MeetingLogConstraint {
 
 /** input type for inserting data into table "MeetingLog" */
 export type MeetingLogInsertInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
@@ -84,6 +88,7 @@ export type MeetingLogInsertInput = {
 /** aggregate max on columns */
 export type MeetingLogMaxFields = {
   __typename?: 'MeetingLogMaxFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
   ownerId?: Maybe<Scalars['String']>;
@@ -92,6 +97,7 @@ export type MeetingLogMaxFields = {
 /** aggregate min on columns */
 export type MeetingLogMinFields = {
   __typename?: 'MeetingLogMinFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
   ownerId?: Maybe<Scalars['String']>;
@@ -115,6 +121,7 @@ export type MeetingLogOnConflict = {
 
 /** Ordering options when selecting data from "MeetingLog". */
 export type MeetingLogOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
   ownerId?: InputMaybe<OrderBy>;
@@ -129,6 +136,8 @@ export type MeetingLogPkColumnsInput = {
 /** select columns of table "MeetingLog" */
 export enum MeetingLogSelectColumn {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   Id = 'id',
   /** column name */
   Log = 'log',
@@ -138,6 +147,7 @@ export enum MeetingLogSelectColumn {
 
 /** input type for updating data in table "MeetingLog" */
 export type MeetingLogSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
@@ -153,6 +163,7 @@ export type MeetingLogStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type MeetingLogStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
@@ -160,6 +171,8 @@ export type MeetingLogStreamCursorValueInput = {
 
 /** update columns of table "MeetingLog" */
 export enum MeetingLogUpdateColumn {
+  /** column name */
+  CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
   /** column name */
@@ -178,10 +191,10 @@ export type MeetingLogUpdates = {
 /** columns and relationships of "MeetingUsers" */
 export type MeetingUsers = {
   __typename?: 'MeetingUsers';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   meetingId: Scalars['String'];
-  userEmail?: Maybe<Scalars['String']>;
-  userId: Scalars['String'];
+  userEmail: Scalars['String'];
 };
 
 /** aggregated selection of "MeetingUsers" */
@@ -211,10 +224,10 @@ export type MeetingUsersBoolExp = {
   _and?: InputMaybe<Array<MeetingUsersBoolExp>>;
   _not?: InputMaybe<MeetingUsersBoolExp>;
   _or?: InputMaybe<Array<MeetingUsersBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   meetingId?: InputMaybe<StringComparisonExp>;
   userEmail?: InputMaybe<StringComparisonExp>;
-  userId?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "MeetingUsers" */
@@ -225,28 +238,28 @@ export enum MeetingUsersConstraint {
 
 /** input type for inserting data into table "MeetingUsers" */
 export type MeetingUsersInsertInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['String']>;
   userEmail?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type MeetingUsersMaxFields = {
   __typename?: 'MeetingUsersMaxFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['String']>;
   userEmail?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type MeetingUsersMinFields = {
   __typename?: 'MeetingUsersMinFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   meetingId?: Maybe<Scalars['String']>;
   userEmail?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "MeetingUsers" */
@@ -267,10 +280,10 @@ export type MeetingUsersOnConflict = {
 
 /** Ordering options when selecting data from "MeetingUsers". */
 export type MeetingUsersOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   meetingId?: InputMaybe<OrderBy>;
   userEmail?: InputMaybe<OrderBy>;
-  userId?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: MeetingUsers */
@@ -281,21 +294,21 @@ export type MeetingUsersPkColumnsInput = {
 /** select columns of table "MeetingUsers" */
 export enum MeetingUsersSelectColumn {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   Id = 'id',
   /** column name */
   MeetingId = 'meetingId',
   /** column name */
-  UserEmail = 'userEmail',
-  /** column name */
-  UserId = 'userId'
+  UserEmail = 'userEmail'
 }
 
 /** input type for updating data in table "MeetingUsers" */
 export type MeetingUsersSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['String']>;
   userEmail?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
 };
 
 /** Streaming cursor of the table "MeetingUsers" */
@@ -308,22 +321,22 @@ export type MeetingUsersStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type MeetingUsersStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   meetingId?: InputMaybe<Scalars['String']>;
   userEmail?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "MeetingUsers" */
 export enum MeetingUsersUpdateColumn {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   Id = 'id',
   /** column name */
   MeetingId = 'meetingId',
   /** column name */
-  UserEmail = 'userEmail',
-  /** column name */
-  UserId = 'userId'
+  UserEmail = 'userEmail'
 }
 
 export type MeetingUsersUpdates = {
@@ -380,6 +393,19 @@ export type StringComparisonExp = {
   _regex?: InputMaybe<Scalars['String']>;
   /** does the column match the given SQL regular expression */
   _similar?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type TimestamptzComparisonExp = {
+  _eq?: InputMaybe<Scalars['timestamptz']>;
+  _gt?: InputMaybe<Scalars['timestamptz']>;
+  _gte?: InputMaybe<Scalars['timestamptz']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']>>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['timestamptz']>;
+  _lte?: InputMaybe<Scalars['timestamptz']>;
+  _neq?: InputMaybe<Scalars['timestamptz']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
 /** columns and relationships of "Users" */
@@ -974,7 +1000,7 @@ export type InviteMeetingUserMutationVariables = Exact<{
 }>;
 
 
-export type InviteMeetingUserMutation = { __typename?: 'mutation_root', insertMeetingUsersOne?: { __typename?: 'MeetingUsers', userEmail?: string | null } | null };
+export type InviteMeetingUserMutation = { __typename?: 'mutation_root', insertMeetingUsersOne?: { __typename?: 'MeetingUsers', userEmail: string } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   meetingId: Scalars['uuid'];

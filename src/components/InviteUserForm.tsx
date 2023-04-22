@@ -1,14 +1,16 @@
 import { useInviteMeetingUserMutation } from "@/generates/graphql";
+import { useLoading } from "@/hooks";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { Box, Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function InviteUserForm() {
     const [inviteEmail, setInviteEmail] = useState("");
     const { meetingId } = useRecoilValue(meetingAtom);
     const [, setLogModalState] = useRecoilState(logModalAtom);
+
     const [inviteUser, { data, loading }] = useInviteMeetingUserMutation({
         variables: {
             userEmail: inviteEmail,
@@ -20,6 +22,13 @@ export default function InviteUserForm() {
                 isOpen: true,
                 message: e.message,
                 status: "error",
+            });
+        },
+        onCompleted: () => {
+            setLogModalState({
+                isOpen: true,
+                message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
+                status: "success",
             });
         },
     });
@@ -38,13 +47,8 @@ export default function InviteUserForm() {
         inviteUser();
         setInviteEmail("");
     };
-    useEffect(() => {
-        setLogModalState({
-            isOpen: true,
-            message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
-            status: "success",
-        });
-    }, [data]);
+    useLoading({ isLoading: loading, message: "招待中..." });
+
     return (
         <Box>
             <TextField

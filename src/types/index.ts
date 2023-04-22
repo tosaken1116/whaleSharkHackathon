@@ -8,3 +8,7 @@ export type logModalAtomType = {
     message: string;
     status: AlertProps["severity"] | undefined;
 };
+export type loadingModalAtomType = {
+    isLoading: boolean;
+    message: string;
+};

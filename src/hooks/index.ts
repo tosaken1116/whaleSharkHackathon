@@ -1,6 +1,7 @@
 import { useRefreshMeetingLogSubscription } from "@/generates/graphql";
+import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { userAtom } from "@/state/userAtom";
-import { UseMeetingLogProps } from "@/types";
+import { UseMeetingLogProps, loadingModalAtomType } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -10,6 +11,7 @@ import {
     signOut,
 } from "@firebase/auth";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 export const useAuthentication = () => {
@@ -85,4 +87,22 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
         },
     });
     return { log: data?.meetingLogByPk?.log, isLoading: loading, error };
+};
+
+export const useLoading = ({ isLoading, message }: loadingModalAtomType) => {
+    const [, setLoadingModalState] = useRecoilState(loadingModalAtom);
+
+    useEffect(() => {
+        if (isLoading) {
+            setLoadingModalState({
+                isLoading: true,
+                message: message,
+            });
+        } else {
+            setLoadingModalState({
+                isLoading: false,
+                message: "",
+            });
+        }
+    }, [isLoading]);
 };
