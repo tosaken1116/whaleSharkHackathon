@@ -35,7 +35,6 @@ const SpeechRecognitionComponent = () => {
     useEffect(() => {
         setTempRecordingText(transcript);
         getCorrectedText(tempRecordingText);
-        setTempRecordingText("");
     }, [transcript]);
     useEffect(() => {
         if (error) {

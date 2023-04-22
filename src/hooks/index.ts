@@ -8,7 +8,7 @@ import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
-import { chatType, loadingModalAtomType, logModalAtomType } from "@/types";
+import { loadingModalAtomType, logModalAtomType } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -180,46 +180,27 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
 };
 export const useChatGPT = () => {
     const [chatLogState, setChatLogState] = useRecoilState(chatLogAtom);
-    const [{ data, error, isCorrecting }, setData] = useState({
+    const [{ data, error }, setData] = useState({
         data: "",
         error: false,
-        isCorrecting: false,
     });
     const getCorrectedText = async (unCorrectedText: string) => {
-        if (!isCorrecting) {
-            setData({ ...{ data, error }, isCorrecting: true });
-            const setChatLog: chatType[] = [
-                ...chatLogState.chatLog,
-                {
-                    role: "user",
-                    content: unCorrectedText,
-                },
-            ];
-            setChatLogState({
-                chatLog: setChatLog,
-            });
+        if (unCorrectedText != "") {
             try {
                 const response = await axios.post("/api/correction", {
-                    messages: setChatLog,
-                });
-                setChatLogState({
-                    chatLog: [
-                        ...chatLogState.chatLog,
-                        {
-                            ...response.data.message,
-                        },
-                    ],
+                    messages: {
+                        role: "user",
+                        content: unCorrectedText,
+                    },
                 });
                 setData({
                     data: response.data.messages.content,
                     error: false,
-                    isCorrecting: false,
                 });
             } catch (e) {
                 setData({
                     error: true,
                     data: unCorrectedText,
-                    isCorrecting: false,
                 });
             }
         }
