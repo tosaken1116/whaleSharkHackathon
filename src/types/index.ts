@@ -1,4 +1,5 @@
 import { AlertProps } from "@mui/material";
+import React from "react";
 
 export type UseMeetingLogProps = {
     meetingId: string;
@@ -11,4 +12,8 @@ export type logModalAtomType = {
 export type loadingModalAtomType = {
     isLoading: boolean;
     message: string;
+};
+export type sidebarProps = {
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
