@@ -19,7 +19,6 @@ export default function CreateRoom() {
             errorHandle({ message: `部屋を作成できませんでした:${e}` }),
         onCompleted: () => {
             successHandle({ message: "部屋を作成しました" });
-            router.push("./meeting");
         },
     });
     const handleMakeRoom = async () => {
@@ -34,6 +33,7 @@ export default function CreateRoom() {
         setMeetingState({
             meetingId: result?.data?.insertMeetingLogOne?.id ?? "",
         });
+        router.push(`./meeting/${result?.data?.insertMeetingLogOne?.id}`);
     };
     useLoading({ isLoading: loading, message: "部屋を作成しています..." });
 

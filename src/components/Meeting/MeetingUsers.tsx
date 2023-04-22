@@ -2,7 +2,7 @@ import { GetMeetingLogQuery, Users } from "@/generates/graphql";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
-const MeetingUser = ({ iconPath, userName }: Partial<Users>) => {
+export const MeetingUser = ({ iconPath, userName }: Partial<Users>) => {
     return (
         <Stack direction="row" spacing={2}>
             <Image
@@ -12,7 +12,7 @@ const MeetingUser = ({ iconPath, userName }: Partial<Users>) => {
                 height={40}
                 style={{ borderRadius: "999px" }}
             />
-            <Typography variant="body1" alignSelf="center">
+            <Typography variant="h4" alignSelf="center">
                 {userName}
             </Typography>
         </Stack>
