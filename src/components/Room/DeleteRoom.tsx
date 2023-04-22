@@ -1,10 +1,8 @@
 import { useDeleteRoomMutation } from "@/generates/graphql";
-import { useLoading, useLogModal } from "@/hooks";
-import { loadingModalAtom } from "@/state/loadingModalAtom";
-import { logModalAtom } from "@/state/logModalAtom";
+import { useLoading, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { Button } from "@mui/material";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 export default function DeleteRoom() {
     const { meetingId } = useRecoilValue(meetingAtom);

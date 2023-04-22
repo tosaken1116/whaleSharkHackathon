@@ -1,4 +1,3 @@
-import { useAuthentication } from "@/hooks";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
     AppBar,
@@ -12,6 +11,7 @@ import {
 import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { useState } from "react";
 import SideBar from "./SideBar";
+import { useAuthentication } from "@/hooks/server";
 
 const drawerWidth = 240;
 

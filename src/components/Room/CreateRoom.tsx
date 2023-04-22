@@ -1,5 +1,5 @@
 import { useCreateRoomMutation } from "@/generates/graphql";
-import { useLoading, useLogModal } from "@/hooks";
+import { useLoading, useLogModal } from "@/hooks/client";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
