@@ -1,5 +1,5 @@
 import { useUpdateMeetingMutation } from "@/generates/graphql";
-import { useChatGPT, useLogModal } from "@/hooks";
+import { useChatGPT, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import MicIcon from "@mui/icons-material/Mic";
 import { Box, IconButton } from "@mui/material";

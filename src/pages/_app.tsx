@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/Common/Layout";
 import { createApolloClient } from "@/libs/createClient";
 import { createMuiTheme } from "@/libs/theme";
 import "@/styles/globals.css";
