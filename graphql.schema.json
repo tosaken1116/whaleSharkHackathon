@@ -3636,7 +3636,7 @@
         "enumValues": [
           {
             "name": "Users_pkey",
-            "description": "unique or primary key constraint on columns \"email\"",
+            "description": "unique or primary key constraint on columns \"id\"",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -4039,7 +4039,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "email",
+            "name": "id",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -5603,7 +5603,7 @@
             "description": "delete single row from the table: \"Users\"",
             "args": [
               {
-                "name": "email",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -6922,7 +6922,7 @@
             "description": "fetch data from the table: \"Users\" using primary key columns",
             "args": [
               {
-                "name": "email",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -7748,7 +7748,7 @@
             "description": "fetch data from the table: \"Users\" using primary key columns",
             "args": [
               {
-                "name": "email",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
