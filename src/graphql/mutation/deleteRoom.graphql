@@ -1,5 +1,0 @@
-mutation DeleteRoom($meetingId: uuid!) {
-    deleteMeetingLogByPk(id: $meetingId) {
-        ownerId
-    }
-}

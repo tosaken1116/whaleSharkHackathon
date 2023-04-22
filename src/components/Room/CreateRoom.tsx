@@ -1,4 +1,7 @@
-import { useCreateRoomMutation } from "@/generates/graphql";
+import {
+    useCreateRoomMutation,
+    useInviteMeetingUserMutation,
+} from "@/generates/graphql";
 import { useLoading, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
@@ -9,10 +12,25 @@ import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 export default function CreateRoom() {
     const router = useRouter();
-    const [, setMeetingState] = useRecoilState(meetingAtom);
-    const { userId } = useRecoilValue(userAtom);
+    const [{ meetingId }, setMeetingState] = useRecoilState(meetingAtom);
+    const { userId, email } = useRecoilValue(userAtom);
     const { errorHandle, successHandle } = useLogModal();
     const [title, setTitle] = useState("");
+
+    const [inviteUser, { data }] = useInviteMeetingUserMutation({
+        variables: {
+            userEmail: email,
+            meetingId: meetingId,
+        },
+        onError: (e) =>
+            errorHandle({ message: `招待に失敗しました:${e.message}` }),
+        onCompleted: () => {
+            successHandle({
+                message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
+            });
+            router.push(`./meeting/${meetingId}`);
+        },
+    });
     const [createRoom, { loading }] = useCreateRoomMutation({
         variables: { ownerId: userId },
         onError: (e) =>
@@ -21,18 +39,24 @@ export default function CreateRoom() {
             successHandle({
                 message: `部屋を作成しました タイトル:${result.insertMeetingLogOne?.title}`,
             });
+            setMeetingState({
+                meetingId: result?.insertMeetingLogOne?.id ?? "",
+            });
+
+            inviteUser({
+                variables: {
+                    meetingId: result?.insertMeetingLogOne?.id ?? "",
+                    userEmail: email,
+                },
+            });
         },
     });
-    const handleMakeRoom = async () => {
+    const handleMakeRoom = () => {
         if (userId == "") {
             errorHandle({ message: "ログインしていません" });
             return;
         }
-        const result = await createRoom();
-        setMeetingState({
-            meetingId: result?.data?.insertMeetingLogOne?.id ?? "",
-        });
-        router.push(`./meeting/${result?.data?.insertMeetingLogOne?.id}`);
+        createRoom();
     };
     useLoading({ isLoading: loading, message: "部屋を作成しています..." });
 
