@@ -6,7 +6,7 @@ import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
-import { loadingModalAtomType } from "@/types";
+import { loadingModalAtomType, logModalAtomType } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -87,19 +87,14 @@ export const useLocalStorage = () => {
 };
 export const useMeetingLog = () => {
     const { meetingId } = useRecoilValue(meetingAtom);
-    const [, setLogModalState] = useRecoilState(logModalAtom);
+    const { errorHandle } = useLogModal();
 
     const { data: initialLog } = useGetMeetingLogQuery({
         variables: {
             meetingId: meetingId,
         },
-        onError: (e) => {
-            setLogModalState({
-                isOpen: true,
-                message: `議事録の取得に失敗しました:${e}`,
-                status: "error",
-            });
-        },
+        onError: (e) =>
+            errorHandle({ message: `議事録の取得に失敗しました:${e}` }),
     });
     const [{ log, meetingUsers }, setMeeting] = useState({
         log: initialLog?.meetingLogByPk?.log,
@@ -109,13 +104,8 @@ export const useMeetingLog = () => {
         variables: {
             meetingId: meetingId,
         },
-        onError: (e) => {
-            setLogModalState({
-                isOpen: true,
-                message: `議事録の同期に失敗しました:${e}`,
-                status: "error",
-            });
-        },
+        onError: (e) =>
+            errorHandle({ message: `議事録の同期に失敗しました:${e}` }),
     });
     useEffect(() => {
         setMeeting({
@@ -142,4 +132,22 @@ export const useLoading = ({ isLoading, message }: loadingModalAtomType) => {
             });
         }
     }, [isLoading]);
+};
+export const useLogModal = () => {
+    const [, setLogModalState] = useRecoilState(logModalAtom);
+    const errorHandle = ({ message }: Pick<logModalAtomType, "message">) => {
+        setLogModalState({
+            isOpen: true,
+            message: message,
+            status: "error",
+        });
+    };
+    const successHandle = ({ message }: Pick<logModalAtomType, "message">) => {
+        setLogModalState({
+            isOpen: true,
+            message: message,
+            status: "success",
+        });
+    };
+    return { errorHandle, successHandle };
 };

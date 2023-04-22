@@ -1,4 +1,5 @@
 import { useUpdateMeetingMutation } from "@/generates/graphql";
+import { useLogModal } from "@/hooks";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import MicIcon from "@mui/icons-material/Mic";
@@ -12,6 +13,7 @@ const SpeechRecognitionComponent = () => {
     const { meetingId } = useRecoilValue(meetingAtom);
     const [, setLogModalState] = useRecoilState(logModalAtom);
     const [isRecording, setIsRecording] = useState(false);
+    const { errorHandle } = useLogModal();
     const { transcript } = useSpeechRecognition();
 
     const [updateMeetingLog] = useUpdateMeetingMutation({
@@ -19,13 +21,8 @@ const SpeechRecognitionComponent = () => {
             meetingId: meetingId,
             updateLog: transcript,
         },
-        onError: (e) => {
-            setLogModalState({
-                isOpen: true,
-                message: `議事録の動機に失敗しました:${e}`,
-                status: "error",
-            });
-        },
+        onError: (e) =>
+            errorHandle({ message: `議事録の動機に失敗しました:${e}` }),
     });
     const handleListen = () => {
         if (isRecording) {
