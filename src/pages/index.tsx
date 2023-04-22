@@ -51,7 +51,7 @@ const IconBackground = () => {
             }}
         >
             {[...Array(16)].map((index) => (
-                <Icons />
+                <Icons key={index} />
             ))}
         </Grid>
     );
