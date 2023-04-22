@@ -41,7 +41,6 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
         },
         onError: (e) => {
             if (meetingId != "") {
-                console.log(e);
                 errorHandle({ message: `議事録の同期に失敗しました:${e}` });
             }
         },
@@ -79,6 +78,8 @@ export const useAuthentication = () => {
                 setUserState({
                     userId: user.uid,
                     isLogin: true,
+                    iconPath: user.photoURL ?? "",
+                    userName: user.displayName ?? "匿名希望",
                 });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });

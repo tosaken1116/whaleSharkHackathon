@@ -3,7 +3,7 @@ import {
     Users,
     useGetInvitedMeetingQuery,
 } from "@/generates/graphql";
-import { useInitializeUser, useLoading } from "@/hooks/client";
+import { useLoading } from "@/hooks/client";
 import { userAtom } from "@/state/userAtom";
 import {
     Box,
@@ -36,10 +36,6 @@ const InviteRoom = ({
 
 export default function InvitedRoomList() {
     const { userId } = useRecoilValue(userAtom);
-    const { initialize } = useInitializeUser();
-    if (!userId) {
-        initialize();
-    }
     const { data, loading } = useGetInvitedMeetingQuery({
         variables: {
             userId: userId,
@@ -52,7 +48,6 @@ export default function InvitedRoomList() {
         isLoading: loading,
         message: "招待されているミーティングを取得中...",
     });
-    console.log(data);
     if (data?.meetingUsers.length != 0) {
         return (
             <List>

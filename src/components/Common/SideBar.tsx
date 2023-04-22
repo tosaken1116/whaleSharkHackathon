@@ -1,31 +1,27 @@
-import React from "react";
-import Link from "next/link";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
-    Drawer,
-    useTheme,
-    List,
-    Divider,
-    IconButton,
-    Stack,
     Box,
+    Divider,
+    Drawer,
+    IconButton,
+    List,
     ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Stack,
 } from "@mui/material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import Link from "next/link";
 
+import { sidebarProps } from "@/types";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import HomeIcon from "@mui/icons-material/Home";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import { sidebarProps } from "@/types";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 
 const drawerWidth = 240;
 
 export default function SideBar({ isOpen, setIsOpen }: sidebarProps) {
-    const theme = useTheme();
-
     return (
         <Drawer
             sx={{

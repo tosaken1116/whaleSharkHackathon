@@ -1,4 +1,5 @@
 import { useAuthentication } from "@/hooks/server";
+import { userAtom } from "@/state/userAtom";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
     AppBar,
@@ -9,6 +10,8 @@ import {
     Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { MeetingUser } from "../Meeting/MeetingUsers";
 import SideBar from "./SideBar";
 
 const drawerWidth = 240;
@@ -17,7 +20,7 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
 
     const { login } = useAuthentication();
-    const [isLogin, setIsLogin] = useState(true);
+    const { userId, isLogin, iconPath, userName } = useRecoilValue(userAtom);
 
     return (
         <Box sx={{ display: "flex", height: "8vh" }}>
@@ -42,12 +45,12 @@ export default function Header() {
                         <Box textAlign="left">議事Log</Box>
                     </Typography>
                     <Box style={{ flexGrow: 1 }}></Box>
-                    {isLogin ? (
+                    {!isLogin ? (
                         <Button color="inherit" onClick={() => login()}>
                             ログイン
                         </Button>
                     ) : (
-                        "MailAddress"
+                        <MeetingUser {...{ iconPath, userName }} />
                     )}
                 </Toolbar>
             </AppBar>

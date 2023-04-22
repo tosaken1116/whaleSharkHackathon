@@ -5,5 +5,7 @@ export const userAtom = atom({
     default: {
         userId: "",
         isLogin: false,
+        userName: "",
+        iconPath: "",
     },
 });
