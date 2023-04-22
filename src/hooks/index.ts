@@ -16,6 +16,7 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -175,4 +176,33 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
         }
     }, [router.isReady]);
     return { ...userState, userName: data?.usersByPk?.userName };
+};
+export const useChatGPT = () => {
+    const [{ data, error }, setData] = useState({
+        data: "",
+        error: false,
+    });
+    const getCorrectedText = async (unCorrectedText: string) => {
+        if (unCorrectedText != "") {
+            try {
+                const response = await axios.post("/api/correction", {
+                    messages: {
+                        role: "user",
+                        content: unCorrectedText,
+                    },
+                });
+                setData({
+                    data: response.data.messages.content,
+                    error: false,
+                });
+            } catch (e) {
+                setData({
+                    error: true,
+                    data: unCorrectedText,
+                });
+            }
+        }
+    };
+
+    return { data, error, getCorrectedText };
 };

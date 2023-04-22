@@ -1,6 +1,5 @@
 import { useUpdateMeetingMutation } from "@/generates/graphql";
-import { useLogModal } from "@/hooks";
-import { logModalAtom } from "@/state/logModalAtom";
+import { useChatGPT, useLogModal } from "@/hooks";
 import { meetingAtom } from "@/state/meetingAtom";
 import MicIcon from "@mui/icons-material/Mic";
 import { Box, IconButton } from "@mui/material";
@@ -8,18 +7,18 @@ import { useEffect, useState } from "react";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 const SpeechRecognitionComponent = () => {
     const { meetingId } = useRecoilValue(meetingAtom);
-    const [, setLogModalState] = useRecoilState(logModalAtom);
     const [isRecording, setIsRecording] = useState(false);
     const { errorHandle } = useLogModal();
     const { transcript } = useSpeechRecognition();
-
+    const [tempRecordingText, setTempRecordingText] = useState("");
+    const { data, error, getCorrectedText } = useChatGPT();
     const [updateMeetingLog] = useUpdateMeetingMutation({
         variables: {
             meetingId: meetingId,
-            updateLog: transcript,
+            updateLog: data,
         },
         onError: (e) =>
             errorHandle({ message: `議事録の動機に失敗しました:${e}` }),
@@ -34,8 +33,16 @@ const SpeechRecognitionComponent = () => {
         }
     };
     useEffect(() => {
-        updateMeetingLog();
+        setTempRecordingText(transcript);
+        getCorrectedText(tempRecordingText);
     }, [transcript]);
+    useEffect(() => {
+        if (error) {
+            setTempRecordingText(data);
+        } else {
+            updateMeetingLog();
+        }
+    }, [data]);
     return (
         <Box>
             <IconButton
@@ -46,7 +53,6 @@ const SpeechRecognitionComponent = () => {
             >
                 <MicIcon />
             </IconButton>
-
             <p>{transcript}</p>
         </Box>
     );

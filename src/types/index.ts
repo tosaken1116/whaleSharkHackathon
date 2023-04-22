@@ -17,3 +17,10 @@ export type sidebarProps = {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+export type chatType = {
+    role: "user" | "assistant";
+    content: string;
+};
+export type useChatGPTDataHandleType = {
+    data: string;
+};
