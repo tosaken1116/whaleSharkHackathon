@@ -1,23 +1,17 @@
+import { useAuthentication } from "@/hooks/server";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
     AppBar,
     Box,
     Button,
-    CssBaseline,
     IconButton,
     Toolbar,
     Typography,
 } from "@mui/material";
-import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { useState } from "react";
 import SideBar from "./SideBar";
-import { useAuthentication } from "@/hooks/server";
 
 const drawerWidth = 240;
-
-interface AppBarProps extends MuiAppBarProps {
-    isOpen?: boolean;
-}
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +20,7 @@ export default function Header() {
     const [isLogin, setIsLogin] = useState(true);
 
     return (
-        <Box sx={{ display: "flex" }}>
-            <CssBaseline />
+        <Box sx={{ display: "flex", height: "8vh" }}>
             <AppBar
                 position="static"
                 sx={{

@@ -55,6 +55,7 @@ export type IntComparisonExp = {
 /** columns and relationships of "MeetingLog" */
 export type MeetingLog = {
   __typename?: 'MeetingLog';
+  closedAt?: Maybe<Scalars['timestamptz']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   log: Scalars['String'];
@@ -115,6 +116,7 @@ export type MeetingLogBoolExp = {
   _and?: InputMaybe<Array<MeetingLogBoolExp>>;
   _not?: InputMaybe<MeetingLogBoolExp>;
   _or?: InputMaybe<Array<MeetingLogBoolExp>>;
+  closedAt?: InputMaybe<TimestamptzComparisonExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   log?: InputMaybe<StringComparisonExp>;
@@ -133,6 +135,7 @@ export enum MeetingLogConstraint {
 
 /** input type for inserting data into table "MeetingLog" */
 export type MeetingLogInsertInput = {
+  closedAt?: InputMaybe<Scalars['timestamptz']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
@@ -145,6 +148,7 @@ export type MeetingLogInsertInput = {
 /** aggregate max on columns */
 export type MeetingLogMaxFields = {
   __typename?: 'MeetingLogMaxFields';
+  closedAt?: Maybe<Scalars['timestamptz']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
@@ -154,6 +158,7 @@ export type MeetingLogMaxFields = {
 /** aggregate min on columns */
 export type MeetingLogMinFields = {
   __typename?: 'MeetingLogMinFields';
+  closedAt?: Maybe<Scalars['timestamptz']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
@@ -185,6 +190,7 @@ export type MeetingLogOnConflict = {
 
 /** Ordering options when selecting data from "MeetingLog". */
 export type MeetingLogOrderBy = {
+  closedAt?: InputMaybe<OrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
@@ -202,6 +208,8 @@ export type MeetingLogPkColumnsInput = {
 /** select columns of table "MeetingLog" */
 export enum MeetingLogSelectColumn {
   /** column name */
+  ClosedAt = 'closedAt',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
@@ -215,6 +223,7 @@ export enum MeetingLogSelectColumn {
 
 /** input type for updating data in table "MeetingLog" */
 export type MeetingLogSetInput = {
+  closedAt?: InputMaybe<Scalars['timestamptz']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
@@ -232,6 +241,7 @@ export type MeetingLogStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type MeetingLogStreamCursorValueInput = {
+  closedAt?: InputMaybe<Scalars['timestamptz']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
@@ -241,6 +251,8 @@ export type MeetingLogStreamCursorValueInput = {
 
 /** update columns of table "MeetingLog" */
 export enum MeetingLogUpdateColumn {
+  /** column name */
+  ClosedAt = 'closedAt',
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
@@ -1153,7 +1165,14 @@ export type GetMeetingLogQueryVariables = Exact<{
 }>;
 
 
-export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, closedAt?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+
+export type GetMeetingDocumentsQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type GetMeetingDocumentsQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', closedAt?: string | null, ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
 
 export type GetUserNameQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -1340,7 +1359,9 @@ export type UpdateMeetingMutationResult = Apollo.MutationResult<UpdateMeetingMut
 export type UpdateMeetingMutationOptions = Apollo.BaseMutationOptions<UpdateMeetingMutation, UpdateMeetingMutationVariables>;
 export const GetInvitedMeetingDocument = gql`
     query GetInvitedMeeting($userId: String!) {
-  meetingUsers(where: {userDetail: {id: {_eq: $userId}}}) {
+  meetingUsers(
+    where: {userDetail: {id: {_eq: $userId}}, meetingDetail: {closedAt: {_isNull: true}}}
+  ) {
     meetingDetail {
       ownerDetail {
         iconPath
@@ -1390,6 +1411,7 @@ export const GetMeetingLogDocument = gql`
         userName
       }
     }
+    closedAt
   }
 }
     `;
@@ -1421,6 +1443,50 @@ export function useGetMeetingLogLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetMeetingLogQueryHookResult = ReturnType<typeof useGetMeetingLogQuery>;
 export type GetMeetingLogLazyQueryHookResult = ReturnType<typeof useGetMeetingLogLazyQuery>;
 export type GetMeetingLogQueryResult = Apollo.QueryResult<GetMeetingLogQuery, GetMeetingLogQueryVariables>;
+export const GetMeetingDocumentsDocument = gql`
+    query GetMeetingDocuments($userId: String!) {
+  meetingUsers(
+    where: {userDetail: {id: {_eq: $userId}}, meetingDetail: {closedAt: {_isNull: false}}}
+  ) {
+    meetingDetail {
+      ownerDetail {
+        iconPath
+        userName
+      }
+      closedAt
+    }
+    meetingId
+  }
+}
+    `;
+
+/**
+ * __useGetMeetingDocumentsQuery__
+ *
+ * To run a query within a React component, call `useGetMeetingDocumentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeetingDocumentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeetingDocumentsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetMeetingDocumentsQuery(baseOptions: Apollo.QueryHookOptions<GetMeetingDocumentsQuery, GetMeetingDocumentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeetingDocumentsQuery, GetMeetingDocumentsQueryVariables>(GetMeetingDocumentsDocument, options);
+      }
+export function useGetMeetingDocumentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeetingDocumentsQuery, GetMeetingDocumentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeetingDocumentsQuery, GetMeetingDocumentsQueryVariables>(GetMeetingDocumentsDocument, options);
+        }
+export type GetMeetingDocumentsQueryHookResult = ReturnType<typeof useGetMeetingDocumentsQuery>;
+export type GetMeetingDocumentsLazyQueryHookResult = ReturnType<typeof useGetMeetingDocumentsLazyQuery>;
+export type GetMeetingDocumentsQueryResult = Apollo.QueryResult<GetMeetingDocumentsQuery, GetMeetingDocumentsQueryVariables>;
 export const GetUserNameDocument = gql`
     query getUserName($userId: String!) {
   usersByPk(id: $userId) {

@@ -26,7 +26,9 @@ const InviteRoom = ({
         <Button href={`/meeting/${id}`}>
             <Stack direction="row">
                 <MeetingUser {...{ userName, iconPath }} />
-                <Typography variant="h4">に招待されています</Typography>
+                <Box alignSelf="center">
+                    <Typography variant="h5">に招待されています</Typography>
+                </Box>
             </Stack>
         </Button>
     );
@@ -68,14 +70,13 @@ export default function InvitedRoomList() {
         return (
             <Box
                 sx={{
-                    width: "100vw",
-                    height: "100vh",
+                    width: "50vw",
+                    height: "46vh",
                     textAlign: "center",
-                    mt: 12,
                 }}
             >
                 <Slide in direction="up">
-                    <Typography variant="h5">
+                    <Typography variant="h4">
                         招待されているミーティングはなかったよ(´・ω・)
                     </Typography>
                 </Slide>

@@ -16,6 +16,7 @@ export const useChatGPT = () => {
     var isCorrecting = false;
     const getCorrectedText = async (unCorrectedText: string) => {
         if (unCorrectedText != "" && !isCorrecting) {
+            console.log("inif");
             isCorrecting = true;
             try {
                 const response = await axios.post("/api/correction", {
