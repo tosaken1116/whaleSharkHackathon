@@ -1,5 +1,6 @@
 import CreateRoom from "@/components/CreateRoom";
 import DeleteRoom from "@/components/DeleteRoom";
+import InviteUserForm from "@/components/InviteUserForm";
 import { useAuthentication } from "@/hooks";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
             <button onClick={() => login()}>click me!</button>
             <CreateRoom />
             <DeleteRoom />
+            <InviteUserForm />
         </>
     );
 };

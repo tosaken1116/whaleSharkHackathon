@@ -31,7 +31,7 @@ export type MeetingLog = {
   log: Scalars['String'];
   ownerId?: Maybe<Scalars['String']>;
   /** An object relationship */
-  ownerName?: Maybe<Users>;
+  user?: Maybe<Users>;
 };
 
 /** aggregated selection of "MeetingLog" */
@@ -64,7 +64,7 @@ export type MeetingLogBoolExp = {
   id?: InputMaybe<UuidComparisonExp>;
   log?: InputMaybe<StringComparisonExp>;
   ownerId?: InputMaybe<StringComparisonExp>;
-  ownerName?: InputMaybe<UsersBoolExp>;
+  user?: InputMaybe<UsersBoolExp>;
 };
 
 /** unique or primary key constraints on table "MeetingLog" */
@@ -78,7 +78,7 @@ export type MeetingLogInsertInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
-  ownerName?: InputMaybe<UsersObjRelInsertInput>;
+  user?: InputMaybe<UsersObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -118,7 +118,7 @@ export type MeetingLogOrderBy = {
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
   ownerId?: InputMaybe<OrderBy>;
-  ownerName?: InputMaybe<UsersOrderBy>;
+  user?: InputMaybe<UsersOrderBy>;
 };
 
 /** primary key columns input for table: MeetingLog */
@@ -175,6 +175,164 @@ export type MeetingLogUpdates = {
   where: MeetingLogBoolExp;
 };
 
+/** columns and relationships of "MeetingUsers" */
+export type MeetingUsers = {
+  __typename?: 'MeetingUsers';
+  id: Scalars['uuid'];
+  meetingId: Scalars['String'];
+  userEmail?: Maybe<Scalars['String']>;
+  userId: Scalars['String'];
+};
+
+/** aggregated selection of "MeetingUsers" */
+export type MeetingUsersAggregate = {
+  __typename?: 'MeetingUsersAggregate';
+  aggregate?: Maybe<MeetingUsersAggregateFields>;
+  nodes: Array<MeetingUsers>;
+};
+
+/** aggregate fields of "MeetingUsers" */
+export type MeetingUsersAggregateFields = {
+  __typename?: 'MeetingUsersAggregateFields';
+  count: Scalars['Int'];
+  max?: Maybe<MeetingUsersMaxFields>;
+  min?: Maybe<MeetingUsersMinFields>;
+};
+
+
+/** aggregate fields of "MeetingUsers" */
+export type MeetingUsersAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "MeetingUsers". All fields are combined with a logical 'AND'. */
+export type MeetingUsersBoolExp = {
+  _and?: InputMaybe<Array<MeetingUsersBoolExp>>;
+  _not?: InputMaybe<MeetingUsersBoolExp>;
+  _or?: InputMaybe<Array<MeetingUsersBoolExp>>;
+  id?: InputMaybe<UuidComparisonExp>;
+  meetingId?: InputMaybe<StringComparisonExp>;
+  userEmail?: InputMaybe<StringComparisonExp>;
+  userId?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "MeetingUsers" */
+export enum MeetingUsersConstraint {
+  /** unique or primary key constraint on columns "id" */
+  MeetingUsersPkey = 'MeetingUsers_pkey'
+}
+
+/** input type for inserting data into table "MeetingUsers" */
+export type MeetingUsersInsertInput = {
+  id?: InputMaybe<Scalars['uuid']>;
+  meetingId?: InputMaybe<Scalars['String']>;
+  userEmail?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type MeetingUsersMaxFields = {
+  __typename?: 'MeetingUsersMaxFields';
+  id?: Maybe<Scalars['uuid']>;
+  meetingId?: Maybe<Scalars['String']>;
+  userEmail?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type MeetingUsersMinFields = {
+  __typename?: 'MeetingUsersMinFields';
+  id?: Maybe<Scalars['uuid']>;
+  meetingId?: Maybe<Scalars['String']>;
+  userEmail?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "MeetingUsers" */
+export type MeetingUsersMutationResponse = {
+  __typename?: 'MeetingUsersMutationResponse';
+  /** number of rows affected by the mutation */
+  affectedRows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<MeetingUsers>;
+};
+
+/** on_conflict condition type for table "MeetingUsers" */
+export type MeetingUsersOnConflict = {
+  constraint: MeetingUsersConstraint;
+  updateColumns?: Array<MeetingUsersUpdateColumn>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+/** Ordering options when selecting data from "MeetingUsers". */
+export type MeetingUsersOrderBy = {
+  id?: InputMaybe<OrderBy>;
+  meetingId?: InputMaybe<OrderBy>;
+  userEmail?: InputMaybe<OrderBy>;
+  userId?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: MeetingUsers */
+export type MeetingUsersPkColumnsInput = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "MeetingUsers" */
+export enum MeetingUsersSelectColumn {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MeetingId = 'meetingId',
+  /** column name */
+  UserEmail = 'userEmail',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "MeetingUsers" */
+export type MeetingUsersSetInput = {
+  id?: InputMaybe<Scalars['uuid']>;
+  meetingId?: InputMaybe<Scalars['String']>;
+  userEmail?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "MeetingUsers" */
+export type MeetingUsersStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: MeetingUsersStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type MeetingUsersStreamCursorValueInput = {
+  id?: InputMaybe<Scalars['uuid']>;
+  meetingId?: InputMaybe<Scalars['String']>;
+  userEmail?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "MeetingUsers" */
+export enum MeetingUsersUpdateColumn {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MeetingId = 'meetingId',
+  /** column name */
+  UserEmail = 'userEmail',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type MeetingUsersUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<MeetingUsersSetInput>;
+  /** filter the rows which have to be updated */
+  where: MeetingUsersBoolExp;
+};
+
 /** column ordering options */
 export enum OrderBy {
   /** in ascending order, nulls last */
@@ -228,7 +386,9 @@ export type StringComparisonExp = {
 export type Users = {
   __typename?: 'Users';
   email: Scalars['String'];
+  iconPath?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  userName?: Maybe<Scalars['String']>;
 };
 
 /** aggregated selection of "Users" */
@@ -259,7 +419,9 @@ export type UsersBoolExp = {
   _not?: InputMaybe<UsersBoolExp>;
   _or?: InputMaybe<Array<UsersBoolExp>>;
   email?: InputMaybe<StringComparisonExp>;
+  iconPath?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<StringComparisonExp>;
+  userName?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "Users" */
@@ -271,21 +433,27 @@ export enum UsersConstraint {
 /** input type for inserting data into table "Users" */
 export type UsersInsertInput = {
   email?: InputMaybe<Scalars['String']>;
+  iconPath?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  userName?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type UsersMaxFields = {
   __typename?: 'UsersMaxFields';
   email?: Maybe<Scalars['String']>;
+  iconPath?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  userName?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type UsersMinFields = {
   __typename?: 'UsersMinFields';
   email?: Maybe<Scalars['String']>;
+  iconPath?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  userName?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "Users" */
@@ -314,7 +482,9 @@ export type UsersOnConflict = {
 /** Ordering options when selecting data from "Users". */
 export type UsersOrderBy = {
   email?: InputMaybe<OrderBy>;
+  iconPath?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
+  userName?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: Users */
@@ -327,13 +497,19 @@ export enum UsersSelectColumn {
   /** column name */
   Email = 'email',
   /** column name */
-  Id = 'id'
+  IconPath = 'iconPath',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserName = 'userName'
 }
 
 /** input type for updating data in table "Users" */
 export type UsersSetInput = {
   email?: InputMaybe<Scalars['String']>;
+  iconPath?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  userName?: InputMaybe<Scalars['String']>;
 };
 
 /** Streaming cursor of the table "Users" */
@@ -347,7 +523,9 @@ export type UsersStreamCursorInput = {
 /** Initial value of the column from where the streaming should start */
 export type UsersStreamCursorValueInput = {
   email?: InputMaybe<Scalars['String']>;
+  iconPath?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  userName?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "Users" */
@@ -355,7 +533,11 @@ export enum UsersUpdateColumn {
   /** column name */
   Email = 'email',
   /** column name */
-  Id = 'id'
+  IconPath = 'iconPath',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserName = 'userName'
 }
 
 export type UsersUpdates = {
@@ -385,6 +567,10 @@ export type Mutation_Root = {
   deleteMeetingLog?: Maybe<MeetingLogMutationResponse>;
   /** delete single row from the table: "MeetingLog" */
   deleteMeetingLogByPk?: Maybe<MeetingLog>;
+  /** delete data from the table: "MeetingUsers" */
+  deleteMeetingUsers?: Maybe<MeetingUsersMutationResponse>;
+  /** delete single row from the table: "MeetingUsers" */
+  deleteMeetingUsersByPk?: Maybe<MeetingUsers>;
   /** delete data from the table: "Users" */
   deleteUsers?: Maybe<UsersMutationResponse>;
   /** delete single row from the table: "Users" */
@@ -393,6 +579,10 @@ export type Mutation_Root = {
   insertMeetingLog?: Maybe<MeetingLogMutationResponse>;
   /** insert a single row into the table: "MeetingLog" */
   insertMeetingLogOne?: Maybe<MeetingLog>;
+  /** insert data into the table: "MeetingUsers" */
+  insertMeetingUsers?: Maybe<MeetingUsersMutationResponse>;
+  /** insert a single row into the table: "MeetingUsers" */
+  insertMeetingUsersOne?: Maybe<MeetingUsers>;
   /** insert data into the table: "Users" */
   insertUsers?: Maybe<UsersMutationResponse>;
   /** insert a single row into the table: "Users" */
@@ -403,6 +593,12 @@ export type Mutation_Root = {
   updateMeetingLogByPk?: Maybe<MeetingLog>;
   /** update multiples rows of table: "MeetingLog" */
   updateMeetingLogMany?: Maybe<Array<Maybe<MeetingLogMutationResponse>>>;
+  /** update data of the table: "MeetingUsers" */
+  updateMeetingUsers?: Maybe<MeetingUsersMutationResponse>;
+  /** update single row of the table: "MeetingUsers" */
+  updateMeetingUsersByPk?: Maybe<MeetingUsers>;
+  /** update multiples rows of table: "MeetingUsers" */
+  updateMeetingUsersMany?: Maybe<Array<Maybe<MeetingUsersMutationResponse>>>;
   /** update data of the table: "Users" */
   updateUsers?: Maybe<UsersMutationResponse>;
   /** update single row of the table: "Users" */
@@ -420,6 +616,18 @@ export type Mutation_RootDeleteMeetingLogArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteMeetingLogByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteMeetingUsersArgs = {
+  where: MeetingUsersBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteMeetingUsersByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -447,6 +655,20 @@ export type Mutation_RootInsertMeetingLogArgs = {
 export type Mutation_RootInsertMeetingLogOneArgs = {
   object: MeetingLogInsertInput;
   onConflict?: InputMaybe<MeetingLogOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertMeetingUsersArgs = {
+  objects: Array<MeetingUsersInsertInput>;
+  onConflict?: InputMaybe<MeetingUsersOnConflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertMeetingUsersOneArgs = {
+  object: MeetingUsersInsertInput;
+  onConflict?: InputMaybe<MeetingUsersOnConflict>;
 };
 
 
@@ -485,6 +707,26 @@ export type Mutation_RootUpdateMeetingLogManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdateMeetingUsersArgs = {
+  _set?: InputMaybe<MeetingUsersSetInput>;
+  where: MeetingUsersBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateMeetingUsersByPkArgs = {
+  _set?: InputMaybe<MeetingUsersSetInput>;
+  pkColumns: MeetingUsersPkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateMeetingUsersManyArgs = {
+  updates: Array<MeetingUsersUpdates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdateUsersArgs = {
   _set?: InputMaybe<UsersSetInput>;
   where: UsersBoolExp;
@@ -511,6 +753,12 @@ export type Query_Root = {
   meetingLogAggregate: MeetingLogAggregate;
   /** fetch data from the table: "MeetingLog" using primary key columns */
   meetingLogByPk?: Maybe<MeetingLog>;
+  /** fetch data from the table: "MeetingUsers" */
+  meetingUsers: Array<MeetingUsers>;
+  /** fetch aggregated fields from the table: "MeetingUsers" */
+  meetingUsersAggregate: MeetingUsersAggregate;
+  /** fetch data from the table: "MeetingUsers" using primary key columns */
+  meetingUsersByPk?: Maybe<MeetingUsers>;
   /** fetch data from the table: "Users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "Users" */
@@ -539,6 +787,29 @@ export type Query_RootMeetingLogAggregateArgs = {
 
 
 export type Query_RootMeetingLogByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootMeetingUsersArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+
+export type Query_RootMeetingUsersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+
+export type Query_RootMeetingUsersByPkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -575,6 +846,14 @@ export type Subscription_Root = {
   meetingLogByPk?: Maybe<MeetingLog>;
   /** fetch data from the table in a streaming manner: "MeetingLog" */
   meetingLogStream: Array<MeetingLog>;
+  /** fetch data from the table: "MeetingUsers" */
+  meetingUsers: Array<MeetingUsers>;
+  /** fetch aggregated fields from the table: "MeetingUsers" */
+  meetingUsersAggregate: MeetingUsersAggregate;
+  /** fetch data from the table: "MeetingUsers" using primary key columns */
+  meetingUsersByPk?: Maybe<MeetingUsers>;
+  /** fetch data from the table in a streaming manner: "MeetingUsers" */
+  meetingUsersStream: Array<MeetingUsers>;
   /** fetch data from the table: "Users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "Users" */
@@ -613,6 +892,36 @@ export type Subscription_RootMeetingLogStreamArgs = {
   batchSize: Scalars['Int'];
   cursor: Array<InputMaybe<MeetingLogStreamCursorInput>>;
   where?: InputMaybe<MeetingLogBoolExp>;
+};
+
+
+export type Subscription_RootMeetingUsersArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+
+export type Subscription_RootMeetingUsersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+
+export type Subscription_RootMeetingUsersByPkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMeetingUsersStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<MeetingUsersStreamCursorInput>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
 };
 
 
@@ -658,6 +967,14 @@ export type DeleteRoomMutationVariables = Exact<{
 
 
 export type DeleteRoomMutation = { __typename?: 'mutation_root', deleteMeetingLogByPk?: { __typename?: 'MeetingLog', ownerId?: string | null } | null };
+
+export type InviteMeetingUserMutationVariables = Exact<{
+  userEmail: Scalars['String'];
+  meetingId: Scalars['String'];
+}>;
+
+
+export type InviteMeetingUserMutation = { __typename?: 'mutation_root', insertMeetingUsersOne?: { __typename?: 'MeetingUsers', userEmail?: string | null } | null };
 
 export type UpdateMeetingMutationVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -741,6 +1058,40 @@ export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
 export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
 export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
+export const InviteMeetingUserDocument = gql`
+    mutation InviteMeetingUser($userEmail: String!, $meetingId: String!) {
+  insertMeetingUsersOne(object: {meetingId: $meetingId, userEmail: $userEmail}) {
+    userEmail
+  }
+}
+    `;
+export type InviteMeetingUserMutationFn = Apollo.MutationFunction<InviteMeetingUserMutation, InviteMeetingUserMutationVariables>;
+
+/**
+ * __useInviteMeetingUserMutation__
+ *
+ * To run a mutation, you first call `useInviteMeetingUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInviteMeetingUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inviteMeetingUserMutation, { data, loading, error }] = useInviteMeetingUserMutation({
+ *   variables: {
+ *      userEmail: // value for 'userEmail'
+ *      meetingId: // value for 'meetingId'
+ *   },
+ * });
+ */
+export function useInviteMeetingUserMutation(baseOptions?: Apollo.MutationHookOptions<InviteMeetingUserMutation, InviteMeetingUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InviteMeetingUserMutation, InviteMeetingUserMutationVariables>(InviteMeetingUserDocument, options);
+      }
+export type InviteMeetingUserMutationHookResult = ReturnType<typeof useInviteMeetingUserMutation>;
+export type InviteMeetingUserMutationResult = Apollo.MutationResult<InviteMeetingUserMutation>;
+export type InviteMeetingUserMutationOptions = Apollo.BaseMutationOptions<InviteMeetingUserMutation, InviteMeetingUserMutationVariables>;
 export const UpdateMeetingDocument = gql`
     mutation updateMeeting($meetingId: uuid!, $updateLog: String!) {
   updateMeetingLogByPk(pkColumns: {id: $meetingId}, _set: {log: $updateLog}) {
