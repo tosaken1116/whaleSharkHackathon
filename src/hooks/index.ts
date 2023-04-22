@@ -3,7 +3,6 @@ import {
     useGetUserNameQuery,
     useRefreshMeetingLogSubscription,
 } from "@/generates/graphql";
-import { chatLogAtom } from "@/state/chatLogAtom";
 import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
@@ -179,7 +178,6 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
     return { ...userState, userName: data?.usersByPk?.userName };
 };
 export const useChatGPT = () => {
-    const [chatLogState, setChatLogState] = useRecoilState(chatLogAtom);
     const [{ data, error }, setData] = useState({
         data: "",
         error: false,

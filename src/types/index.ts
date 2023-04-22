@@ -17,9 +17,6 @@ export type sidebarProps = {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export type ChatLogAtomType = {
-    chatLog: chatType[];
-};
 export type chatType = {
     role: "user" | "assistant";
     content: string;
