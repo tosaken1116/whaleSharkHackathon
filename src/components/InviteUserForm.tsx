@@ -1,5 +1,5 @@
 import { useInviteMeetingUserMutation } from "@/generates/graphql";
-import { useLoading } from "@/hooks";
+import { useLoading, useLogModal } from "@/hooks";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
@@ -11,36 +11,25 @@ export default function InviteUserForm() {
     const { meetingId } = useRecoilValue(meetingAtom);
     const [, setLogModalState] = useRecoilState(logModalAtom);
 
+    const { errorHandle, successHandle } = useLogModal();
     const [inviteUser, { data, loading }] = useInviteMeetingUserMutation({
         variables: {
             userEmail: inviteEmail,
             meetingId: meetingId,
         },
-        onError: (e) => {
-            setLogModalState({
-                isOpen: true,
-                message: e.message,
-                status: "error",
-            });
-        },
-        onCompleted: () => {
-            setLogModalState({
-                isOpen: true,
+        onError: (e) =>
+            errorHandle({ message: `招待に失敗しました:${e.message}` }),
+        onCompleted: () =>
+            successHandle({
                 message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
-                status: "success",
-            });
-        },
+            }),
     });
     const handleClick = () => {
         if (inviteEmail === "") {
             return;
         }
         if (meetingId == "") {
-            setLogModalState({
-                isOpen: true,
-                message: "部屋が作られていません",
-                status: "error",
-            });
+            errorHandle({ message: "部屋が作られていません" });
             return;
         }
         inviteUser();

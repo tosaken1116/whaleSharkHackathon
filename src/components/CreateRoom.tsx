@@ -1,5 +1,5 @@
 import { useCreateRoomMutation } from "@/generates/graphql";
-import { useLoading } from "@/hooks";
+import { useLoading, useLogModal } from "@/hooks";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
@@ -10,33 +10,20 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function CreateRoom() {
     const router = useRouter();
     const [, setMeetingState] = useRecoilState(meetingAtom);
-    const [, setLogModalState] = useRecoilState(logModalAtom);
     const { userId } = useRecoilValue(userAtom);
+    const { errorHandle, successHandle } = useLogModal();
     const [createRoom, { loading }] = useCreateRoomMutation({
         variables: { ownerId: userId },
-        onError: (e) => {
-            setLogModalState({
-                isOpen: true,
-                message: `部屋を作成できませんでした:${e}`,
-                status: "error",
-            });
-        },
+        onError: (e) =>
+            errorHandle({ message: `部屋を作成できませんでした:${e}` }),
         onCompleted: () => {
-            setLogModalState({
-                isOpen: true,
-                message: `部屋を作成しました`,
-                status: "success",
-            });
+            successHandle({ message: "部屋を作成しました" });
             router.push("./meeting");
         },
     });
     const handleMakeRoom = async () => {
         if (userId == "") {
-            setLogModalState({
-                isOpen: true,
-                message: "ログインしていません",
-                status: "error",
-            });
+            errorHandle({ message: "ログインしていません" });
             return;
         }
         const result = await createRoom();
