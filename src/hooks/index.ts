@@ -3,11 +3,12 @@ import {
     useGetUserNameQuery,
     useRefreshMeetingLogSubscription,
 } from "@/generates/graphql";
+import { chatLogAtom } from "@/state/chatLogAtom";
 import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
-import { loadingModalAtomType, logModalAtomType } from "@/types";
+import { chatType, loadingModalAtomType, logModalAtomType } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -16,6 +17,7 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -175,4 +177,55 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
         }
     }, [router.isReady]);
     return { ...userState, userName: data?.usersByPk?.userName };
+};
+export const useChatGPT = () => {
+    const [chatLogState, setChatLogState] = useRecoilState(chatLogAtom);
+    const [{ data, error, isCorrecting }, setData] = useState({
+        data: "",
+        error: false,
+        isCorrecting: false,
+    });
+    const getCorrectedText = async (unCorrectedText: string) => {
+        if (!isCorrecting) {
+            console.log(isCorrecting);
+            setData({ ...{ data, error }, isCorrecting: true });
+            const setChatLog: chatType[] = [
+                ...chatLogState.chatLog,
+                {
+                    role: "user",
+                    content: unCorrectedText,
+                },
+            ];
+            setChatLogState({
+                chatLog: setChatLog,
+            });
+            try {
+                const response = await axios.post("/api/correction", {
+                    messages: setChatLog,
+                });
+                console.log(response);
+                setChatLogState({
+                    chatLog: [
+                        ...chatLogState.chatLog,
+                        {
+                            ...response.data.message,
+                        },
+                    ],
+                });
+                setData({
+                    data: response.data.messages.content,
+                    error: false,
+                    isCorrecting: false,
+                });
+            } catch (e) {
+                setData({
+                    error: true,
+                    data: unCorrectedText,
+                    isCorrecting: false,
+                });
+            }
+        }
+    };
+
+    return { data, error, getCorrectedText };
 };
