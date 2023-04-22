@@ -1,33 +1,22 @@
-import {
-    useGetMeetingLogQuery,
-    useGetUserNameQuery,
-    useRefreshMeetingLogSubscription,
-} from "@/generates/graphql";
+import { useGetUserNameQuery } from "@/generates/graphql";
 import { loadingModalAtom } from "@/state/loadingModalAtom";
 import { logModalAtom } from "@/state/logModalAtom";
-import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
 import { loadingModalAtomType, logModalAtomType } from "@/types";
-import { initializeApp } from "@firebase/app";
-import {
-    GoogleAuthProvider,
-    getAuth,
-    onAuthStateChanged,
-    signInWithPopup,
-    signOut,
-} from "@firebase/auth";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 export const useChatGPT = () => {
     const [{ data, error }, setData] = useState({
         data: "",
         error: false,
     });
+    var isCorrecting = false;
     const getCorrectedText = async (unCorrectedText: string) => {
-        if (unCorrectedText != "") {
+        if (unCorrectedText != "" && !isCorrecting) {
+            isCorrecting = true;
             try {
                 const response = await axios.post("/api/correction", {
                     messages: {
@@ -39,11 +28,13 @@ export const useChatGPT = () => {
                     data: response.data.messages.content,
                     error: false,
                 });
+                isCorrecting = false;
             } catch (e) {
                 setData({
                     error: true,
                     data: unCorrectedText,
                 });
+                isCorrecting = false;
             }
         }
     };
@@ -133,4 +124,22 @@ export const useLocalStorage = () => {
         clearLocalStorage,
         removeLocalStorage,
     };
+};
+
+export const useInitializeUser = () => {
+    const [userState, setUserState] = useRecoilState(userAtom);
+    const { getLocalStorage } = useLocalStorage();
+    const initialize = () => {
+        if (!userState.isLogin) {
+            setUserState({
+                ...userState,
+                userId: getLocalStorage("userId") ?? "",
+            });
+        }
+        if (userState.userId !== "") {
+            setUserState({ ...userState, isLogin: true });
+        }
+        return userState.isLogin;
+    };
+    return { initialize };
 };

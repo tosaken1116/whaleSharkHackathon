@@ -1,5 +1,5 @@
 import { useUpdateUserNameMutation } from "@/generates/graphql";
-import { useLoading, useLogModal, useUserStatus } from "@/hooks";
+import { useLoading, useLogModal, useUserStatus } from "@/hooks/client";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import { Button, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";

@@ -2,7 +2,8 @@ import MeetingLog from "@/components/Meeting/MeetingLog";
 import MeetingUsers from "@/components/Meeting/MeetingUsers";
 import SpeechRecognitionComponent from "@/components/Meeting/Speech";
 import InviteUserForm from "@/components/Room/InviteUserForm";
-import { useMeetingLog, useUserStatus } from "@/hooks";
+import { useUserStatus } from "@/hooks/client";
+import { useMeetingLog } from "@/hooks/server";
 import { Grid, Stack } from "@mui/material";
 
 export default function Meeting() {
