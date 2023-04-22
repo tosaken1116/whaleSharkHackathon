@@ -9,7 +9,7 @@ export default function MeetingList() {
             <MeetingDocuments />
             <Divider orientation="vertical" flexItem />
             <Stack>
-                <Box sx={{ height: "25vh" }}>
+                <Box sx={{ height: "25vh", p: 2 }}>
                     <CreateRoom />
                 </Box>
                 <Divider />
