@@ -67,6 +67,7 @@ export type MeetingLog = {
   ownerDetail?: Maybe<Users>;
   ownerId?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['bytea']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 
@@ -125,6 +126,7 @@ export type MeetingLogBoolExp = {
   ownerDetail?: InputMaybe<UsersBoolExp>;
   ownerId?: InputMaybe<StringComparisonExp>;
   password?: InputMaybe<ByteaComparisonExp>;
+  title?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "MeetingLog" */
@@ -143,6 +145,7 @@ export type MeetingLogInsertInput = {
   ownerDetail?: InputMaybe<UsersObjRelInsertInput>;
   ownerId?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['bytea']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -153,6 +156,7 @@ export type MeetingLogMaxFields = {
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
   ownerId?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -163,6 +167,7 @@ export type MeetingLogMinFields = {
   id?: Maybe<Scalars['uuid']>;
   log?: Maybe<Scalars['String']>;
   ownerId?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "MeetingLog" */
@@ -198,6 +203,7 @@ export type MeetingLogOrderBy = {
   ownerDetail?: InputMaybe<UsersOrderBy>;
   ownerId?: InputMaybe<OrderBy>;
   password?: InputMaybe<OrderBy>;
+  title?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: MeetingLog */
@@ -218,7 +224,9 @@ export enum MeetingLogSelectColumn {
   /** column name */
   OwnerId = 'ownerId',
   /** column name */
-  Password = 'password'
+  Password = 'password',
+  /** column name */
+  Title = 'title'
 }
 
 /** input type for updating data in table "MeetingLog" */
@@ -229,6 +237,7 @@ export type MeetingLogSetInput = {
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['bytea']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Streaming cursor of the table "MeetingLog" */
@@ -247,6 +256,7 @@ export type MeetingLogStreamCursorValueInput = {
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['bytea']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "MeetingLog" */
@@ -262,7 +272,9 @@ export enum MeetingLogUpdateColumn {
   /** column name */
   OwnerId = 'ownerId',
   /** column name */
-  Password = 'password'
+  Password = 'password',
+  /** column name */
+  Title = 'title'
 }
 
 export type MeetingLogUpdates = {
@@ -1125,10 +1137,11 @@ export type UpdateUserNameMutation = { __typename?: 'mutation_root', updateUsers
 
 export type CreateRoomMutationVariables = Exact<{
   ownerId: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CreateRoomMutation = { __typename?: 'mutation_root', insertMeetingLogOne?: { __typename?: 'MeetingLog', id: string } | null };
+export type CreateRoomMutation = { __typename?: 'mutation_root', insertMeetingLogOne?: { __typename?: 'MeetingLog', id: string, title?: string | null } | null };
 
 export type DeleteRoomMutationVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -1158,7 +1171,7 @@ export type GetInvitedMeetingQueryVariables = Exact<{
 }>;
 
 
-export type GetInvitedMeetingQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
+export type GetInvitedMeetingQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', title?: string | null, ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
 
 export type GetMeetingLogQueryVariables = Exact<{
   meetingId: Scalars['uuid'];
@@ -1172,7 +1185,7 @@ export type GetMeetingDocumentsQueryVariables = Exact<{
 }>;
 
 
-export type GetMeetingDocumentsQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', closedAt?: string | null, ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
+export type GetMeetingDocumentsQuery = { __typename?: 'query_root', meetingUsers: Array<{ __typename?: 'MeetingUsers', meetingId?: string | null, meetingDetail?: { __typename?: 'MeetingLog', closedAt?: string | null, title?: string | null, ownerDetail?: { __typename?: 'Users', iconPath?: string | null, userName?: string | null } | null } | null }> };
 
 export type GetUserNameQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -1224,9 +1237,10 @@ export type UpdateUserNameMutationHookResult = ReturnType<typeof useUpdateUserNa
 export type UpdateUserNameMutationResult = Apollo.MutationResult<UpdateUserNameMutation>;
 export type UpdateUserNameMutationOptions = Apollo.BaseMutationOptions<UpdateUserNameMutation, UpdateUserNameMutationVariables>;
 export const CreateRoomDocument = gql`
-    mutation createRoom($ownerId: String!) {
-  insertMeetingLogOne(object: {log: "", ownerId: $ownerId}) {
+    mutation createRoom($ownerId: String!, $title: String = "") {
+  insertMeetingLogOne(object: {log: "", ownerId: $ownerId, title: $title}) {
     id
+    title
   }
 }
     `;
@@ -1246,6 +1260,7 @@ export type CreateRoomMutationFn = Apollo.MutationFunction<CreateRoomMutation, C
  * const [createRoomMutation, { data, loading, error }] = useCreateRoomMutation({
  *   variables: {
  *      ownerId: // value for 'ownerId'
+ *      title: // value for 'title'
  *   },
  * });
  */
@@ -1367,6 +1382,7 @@ export const GetInvitedMeetingDocument = gql`
         iconPath
         userName
       }
+      title
     }
     meetingId
   }
@@ -1454,6 +1470,7 @@ export const GetMeetingDocumentsDocument = gql`
         userName
       }
       closedAt
+      title
     }
     meetingId
   }

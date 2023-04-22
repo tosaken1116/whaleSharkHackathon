@@ -21,14 +21,19 @@ const InviteRoom = ({
     userName,
     iconPath,
     id,
-}: Pick<Users, "userName" | "iconPath"> & Pick<MeetingLog, "id">) => {
+    title,
+}: Pick<Users, "userName" | "iconPath"> & Pick<MeetingLog, "id" | "title">) => {
+    console.log(title);
     return (
         <Button href={`/meeting/${id}`}>
-            <Stack direction="row">
-                <MeetingUser {...{ userName, iconPath }} />
-                <Box alignSelf="center">
-                    <Typography variant="h5">に招待されています</Typography>
-                </Box>
+            <Stack>
+                <Typography variant="body1">タイトル:{title}</Typography>
+                <Stack direction="row">
+                    <MeetingUser {...{ userName, iconPath }} />
+                    <Box alignSelf="center">
+                        <Typography variant="h5">に招待されています</Typography>
+                    </Box>
+                </Stack>
             </Stack>
         </Button>
     );
@@ -56,6 +61,7 @@ export default function InvitedRoomList() {
                         <InviteRoom
                             {...meeting.meetingDetail?.ownerDetail}
                             id={meeting.meetingId ?? ""}
+                            title={meeting.meetingDetail?.title}
                         />
                     </ListItem>
                 ))}

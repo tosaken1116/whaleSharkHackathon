@@ -10,6 +10,7 @@ query GetInvitedMeeting($userId: String!) {
                 iconPath
                 userName
             }
+            title
         }
         meetingId
     }

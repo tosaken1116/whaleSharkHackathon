@@ -11,6 +11,7 @@ query GetMeetingDocuments($userId: String!) {
                 userName
             }
             closedAt
+            title
         }
         meetingId
     }
