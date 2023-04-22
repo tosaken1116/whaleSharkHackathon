@@ -1,7 +1,12 @@
-import { useRefreshMeetingLogSubscription } from "@/generates/graphql";
+import {
+    useGetMeetingLogQuery,
+    useRefreshMeetingLogSubscription,
+} from "@/generates/graphql";
 import { loadingModalAtom } from "@/state/loadingModalAtom";
+import { logModalAtom } from "@/state/logModalAtom";
+import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
-import { UseMeetingLogProps, loadingModalAtomType } from "@/types";
+import { loadingModalAtomType } from "@/types";
 import { initializeApp } from "@firebase/app";
 import {
     GoogleAuthProvider,
@@ -11,8 +16,8 @@ import {
     signOut,
 } from "@firebase/auth";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export const useAuthentication = () => {
     const router = useRouter();
@@ -80,13 +85,45 @@ export const useLocalStorage = () => {
         removeLocalStorage,
     };
 };
-export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
-    const { data, loading, error } = useRefreshMeetingLogSubscription({
+export const useMeetingLog = () => {
+    const { meetingId } = useRecoilValue(meetingAtom);
+    const [, setLogModalState] = useRecoilState(logModalAtom);
+
+    const { data: initialLog } = useGetMeetingLogQuery({
         variables: {
             meetingId: meetingId,
         },
+        onError: (e) => {
+            setLogModalState({
+                isOpen: true,
+                message: `議事録の取得に失敗しました:${e}`,
+                status: "error",
+            });
+        },
     });
-    return { log: data?.meetingLogByPk?.log, isLoading: loading, error };
+    const [{ log, meetingUsers }, setMeeting] = useState({
+        log: initialLog?.meetingLogByPk?.log,
+        meetingUsers: initialLog?.meetingLogByPk?.meetingUsers,
+    });
+    const { data } = useRefreshMeetingLogSubscription({
+        variables: {
+            meetingId: meetingId,
+        },
+        onError: (e) => {
+            setLogModalState({
+                isOpen: true,
+                message: `議事録の同期に失敗しました:${e}`,
+                status: "error",
+            });
+        },
+    });
+    useEffect(() => {
+        setMeeting({
+            log: data?.meetingLogByPk?.log,
+            meetingUsers: data?.meetingLogByPk?.meetingUsers,
+        });
+    }, [data]);
+    return { log, meetingUsers };
 };
 
 export const useLoading = ({ isLoading, message }: loadingModalAtomType) => {

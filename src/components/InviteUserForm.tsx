@@ -2,10 +2,10 @@ import { useInviteMeetingUserMutation } from "@/generates/graphql";
 import { useLoading } from "@/hooks";
 import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
-import { Box, Button, TextField } from "@mui/material";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import { Box, IconButton, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-
 export default function InviteUserForm() {
     const [inviteEmail, setInviteEmail] = useState("");
     const { meetingId } = useRecoilValue(meetingAtom);
@@ -17,7 +17,6 @@ export default function InviteUserForm() {
             meetingId: meetingId,
         },
         onError: (e) => {
-            console.log(e);
             setLogModalState({
                 isOpen: true,
                 message: e.message,
@@ -50,14 +49,18 @@ export default function InviteUserForm() {
     useLoading({ isLoading: loading, message: "招待中..." });
 
     return (
-        <Box>
+        <Stack direction="row" spacing={1}>
             <TextField
                 value={inviteEmail}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setInviteEmail(event.target.value)
                 }
             />
-            <Button onClick={handleClick}>invite!</Button>
-        </Box>
+            <Box alignSelf="center">
+                <IconButton onClick={handleClick}>
+                    <GroupAddIcon />
+                </IconButton>
+            </Box>
+        </Stack>
     );
 }

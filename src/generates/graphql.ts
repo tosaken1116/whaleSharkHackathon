@@ -13,8 +13,22 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  bytea: any;
   timestamptz: string;
   uuid: string;
+};
+
+/** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
+export type ByteaComparisonExp = {
+  _eq?: InputMaybe<Scalars['bytea']>;
+  _gt?: InputMaybe<Scalars['bytea']>;
+  _gte?: InputMaybe<Scalars['bytea']>;
+  _in?: InputMaybe<Array<Scalars['bytea']>>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['bytea']>;
+  _lte?: InputMaybe<Scalars['bytea']>;
+  _neq?: InputMaybe<Scalars['bytea']>;
+  _nin?: InputMaybe<Array<Scalars['bytea']>>;
 };
 
 /** ordering argument of a cursor */
@@ -25,15 +39,51 @@ export enum CursorOrdering {
   Desc = 'DESC'
 }
 
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type IntComparisonExp = {
+  _eq?: InputMaybe<Scalars['Int']>;
+  _gt?: InputMaybe<Scalars['Int']>;
+  _gte?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']>>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Int']>;
+  _lte?: InputMaybe<Scalars['Int']>;
+  _neq?: InputMaybe<Scalars['Int']>;
+  _nin?: InputMaybe<Array<Scalars['Int']>>;
+};
+
 /** columns and relationships of "MeetingLog" */
 export type MeetingLog = {
   __typename?: 'MeetingLog';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
   log: Scalars['String'];
+  /** fetch data from the table: "MeetingUsers" */
+  meetingUsers: Array<MeetingUsers>;
+  /** fetch aggregated fields from the table: "MeetingUsers" */
+  meetingUsersAggregate: MeetingUsersAggregate;
   ownerId?: Maybe<Scalars['String']>;
-  /** An object relationship */
-  user?: Maybe<Users>;
+  password?: Maybe<Scalars['bytea']>;
+};
+
+
+/** columns and relationships of "MeetingLog" */
+export type MeetingLogMeetingUsersArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
+};
+
+
+/** columns and relationships of "MeetingLog" */
+export type MeetingLogMeetingUsersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MeetingUsersOrderBy>>;
+  where?: InputMaybe<MeetingUsersBoolExp>;
 };
 
 /** aggregated selection of "MeetingLog" */
@@ -66,8 +116,10 @@ export type MeetingLogBoolExp = {
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   log?: InputMaybe<StringComparisonExp>;
+  meetingUsers?: InputMaybe<MeetingUsersBoolExp>;
+  meetingUsersAggregate?: InputMaybe<MeetingUsersAggregateBoolExp>;
   ownerId?: InputMaybe<StringComparisonExp>;
-  user?: InputMaybe<UsersBoolExp>;
+  password?: InputMaybe<ByteaComparisonExp>;
 };
 
 /** unique or primary key constraints on table "MeetingLog" */
@@ -81,8 +133,9 @@ export type MeetingLogInsertInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
+  meetingUsers?: InputMaybe<MeetingUsersArrRelInsertInput>;
   ownerId?: InputMaybe<Scalars['String']>;
-  user?: InputMaybe<UsersObjRelInsertInput>;
+  password?: InputMaybe<Scalars['bytea']>;
 };
 
 /** aggregate max on columns */
@@ -124,8 +177,9 @@ export type MeetingLogOrderBy = {
   createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   log?: InputMaybe<OrderBy>;
+  meetingUsersAggregate?: InputMaybe<MeetingUsersAggregateOrderBy>;
   ownerId?: InputMaybe<OrderBy>;
-  user?: InputMaybe<UsersOrderBy>;
+  password?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: MeetingLog */
@@ -142,7 +196,9 @@ export enum MeetingLogSelectColumn {
   /** column name */
   Log = 'log',
   /** column name */
-  OwnerId = 'ownerId'
+  OwnerId = 'ownerId',
+  /** column name */
+  Password = 'password'
 }
 
 /** input type for updating data in table "MeetingLog" */
@@ -151,6 +207,7 @@ export type MeetingLogSetInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['bytea']>;
 };
 
 /** Streaming cursor of the table "MeetingLog" */
@@ -167,6 +224,7 @@ export type MeetingLogStreamCursorValueInput = {
   id?: InputMaybe<Scalars['uuid']>;
   log?: InputMaybe<Scalars['String']>;
   ownerId?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['bytea']>;
 };
 
 /** update columns of table "MeetingLog" */
@@ -178,7 +236,9 @@ export enum MeetingLogUpdateColumn {
   /** column name */
   Log = 'log',
   /** column name */
-  OwnerId = 'ownerId'
+  OwnerId = 'ownerId',
+  /** column name */
+  Password = 'password'
 }
 
 export type MeetingLogUpdates = {
@@ -193,7 +253,9 @@ export type MeetingUsers = {
   __typename?: 'MeetingUsers';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id: Scalars['uuid'];
-  meetingId: Scalars['String'];
+  meetingId?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  userDetail?: Maybe<Users>;
   userEmail: Scalars['String'];
 };
 
@@ -202,6 +264,10 @@ export type MeetingUsersAggregate = {
   __typename?: 'MeetingUsersAggregate';
   aggregate?: Maybe<MeetingUsersAggregateFields>;
   nodes: Array<MeetingUsers>;
+};
+
+export type MeetingUsersAggregateBoolExp = {
+  count?: InputMaybe<MeetingUsersAggregateBoolExpCount>;
 };
 
 /** aggregate fields of "MeetingUsers" */
@@ -219,6 +285,20 @@ export type MeetingUsersAggregateFieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "MeetingUsers" */
+export type MeetingUsersAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<MeetingUsersMaxOrderBy>;
+  min?: InputMaybe<MeetingUsersMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "MeetingUsers" */
+export type MeetingUsersArrRelInsertInput = {
+  data: Array<MeetingUsersInsertInput>;
+  /** upsert condition */
+  onConflict?: InputMaybe<MeetingUsersOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "MeetingUsers". All fields are combined with a logical 'AND'. */
 export type MeetingUsersBoolExp = {
   _and?: InputMaybe<Array<MeetingUsersBoolExp>>;
@@ -226,7 +306,8 @@ export type MeetingUsersBoolExp = {
   _or?: InputMaybe<Array<MeetingUsersBoolExp>>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
-  meetingId?: InputMaybe<StringComparisonExp>;
+  meetingId?: InputMaybe<UuidComparisonExp>;
+  userDetail?: InputMaybe<UsersBoolExp>;
   userEmail?: InputMaybe<StringComparisonExp>;
 };
 
@@ -240,7 +321,8 @@ export enum MeetingUsersConstraint {
 export type MeetingUsersInsertInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
-  meetingId?: InputMaybe<Scalars['String']>;
+  meetingId?: InputMaybe<Scalars['uuid']>;
+  userDetail?: InputMaybe<UsersObjRelInsertInput>;
   userEmail?: InputMaybe<Scalars['String']>;
 };
 
@@ -249,8 +331,16 @@ export type MeetingUsersMaxFields = {
   __typename?: 'MeetingUsersMaxFields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
-  meetingId?: Maybe<Scalars['String']>;
+  meetingId?: Maybe<Scalars['uuid']>;
   userEmail?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "MeetingUsers" */
+export type MeetingUsersMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  meetingId?: InputMaybe<OrderBy>;
+  userEmail?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -258,8 +348,16 @@ export type MeetingUsersMinFields = {
   __typename?: 'MeetingUsersMinFields';
   createdAt?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
-  meetingId?: Maybe<Scalars['String']>;
+  meetingId?: Maybe<Scalars['uuid']>;
   userEmail?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "MeetingUsers" */
+export type MeetingUsersMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  meetingId?: InputMaybe<OrderBy>;
+  userEmail?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "MeetingUsers" */
@@ -283,6 +381,7 @@ export type MeetingUsersOrderBy = {
   createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   meetingId?: InputMaybe<OrderBy>;
+  userDetail?: InputMaybe<UsersOrderBy>;
   userEmail?: InputMaybe<OrderBy>;
 };
 
@@ -307,7 +406,7 @@ export enum MeetingUsersSelectColumn {
 export type MeetingUsersSetInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
-  meetingId?: InputMaybe<Scalars['String']>;
+  meetingId?: InputMaybe<Scalars['uuid']>;
   userEmail?: InputMaybe<Scalars['String']>;
 };
 
@@ -323,7 +422,7 @@ export type MeetingUsersStreamCursorInput = {
 export type MeetingUsersStreamCursorValueInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['uuid']>;
-  meetingId?: InputMaybe<Scalars['String']>;
+  meetingId?: InputMaybe<Scalars['uuid']>;
   userEmail?: InputMaybe<Scalars['String']>;
 };
 
@@ -584,6 +683,13 @@ export type UuidComparisonExp = {
   _lte?: InputMaybe<Scalars['uuid']>;
   _neq?: InputMaybe<Scalars['uuid']>;
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
+};
+
+export type MeetingUsersAggregateBoolExpCount = {
+  arguments?: InputMaybe<Array<MeetingUsersSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<MeetingUsersBoolExp>;
+  predicate: IntComparisonExp;
 };
 
 /** mutation root */
@@ -996,7 +1102,7 @@ export type DeleteRoomMutation = { __typename?: 'mutation_root', deleteMeetingLo
 
 export type InviteMeetingUserMutationVariables = Exact<{
   userEmail: Scalars['String'];
-  meetingId: Scalars['String'];
+  meetingId: Scalars['uuid'];
 }>;
 
 
@@ -1010,12 +1116,19 @@ export type UpdateMeetingMutationVariables = Exact<{
 
 export type UpdateMeetingMutation = { __typename?: 'mutation_root', updateMeetingLogByPk?: { __typename?: 'MeetingLog', log: string } | null };
 
+export type GetMeetingLogQueryVariables = Exact<{
+  meetingId: Scalars['uuid'];
+}>;
+
+
+export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+
 export type RefreshMeetingLogSubscriptionVariables = Exact<{
   meetingId: Scalars['uuid'];
 }>;
 
 
-export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string } | null };
+export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 
 export const CreateRoomDocument = gql`
@@ -1085,7 +1198,7 @@ export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutati
 export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
 export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
 export const InviteMeetingUserDocument = gql`
-    mutation InviteMeetingUser($userEmail: String!, $meetingId: String!) {
+    mutation InviteMeetingUser($userEmail: String!, $meetingId: uuid!) {
   insertMeetingUsersOne(object: {meetingId: $meetingId, userEmail: $userEmail}) {
     userEmail
   }
@@ -1152,10 +1265,59 @@ export function useUpdateMeetingMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateMeetingMutationHookResult = ReturnType<typeof useUpdateMeetingMutation>;
 export type UpdateMeetingMutationResult = Apollo.MutationResult<UpdateMeetingMutation>;
 export type UpdateMeetingMutationOptions = Apollo.BaseMutationOptions<UpdateMeetingMutation, UpdateMeetingMutationVariables>;
+export const GetMeetingLogDocument = gql`
+    query GetMeetingLog($meetingId: uuid!) {
+  meetingLogByPk(id: $meetingId) {
+    log
+    meetingUsers {
+      userDetail {
+        email
+        iconPath
+        userName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMeetingLogQuery__
+ *
+ * To run a query within a React component, call `useGetMeetingLogQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeetingLogQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeetingLogQuery({
+ *   variables: {
+ *      meetingId: // value for 'meetingId'
+ *   },
+ * });
+ */
+export function useGetMeetingLogQuery(baseOptions: Apollo.QueryHookOptions<GetMeetingLogQuery, GetMeetingLogQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeetingLogQuery, GetMeetingLogQueryVariables>(GetMeetingLogDocument, options);
+      }
+export function useGetMeetingLogLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeetingLogQuery, GetMeetingLogQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeetingLogQuery, GetMeetingLogQueryVariables>(GetMeetingLogDocument, options);
+        }
+export type GetMeetingLogQueryHookResult = ReturnType<typeof useGetMeetingLogQuery>;
+export type GetMeetingLogLazyQueryHookResult = ReturnType<typeof useGetMeetingLogLazyQuery>;
+export type GetMeetingLogQueryResult = Apollo.QueryResult<GetMeetingLogQuery, GetMeetingLogQueryVariables>;
 export const RefreshMeetingLogDocument = gql`
     subscription RefreshMeetingLog($meetingId: uuid!) {
   meetingLogByPk(id: $meetingId) {
     log
+    meetingUsers {
+      userDetail {
+        email
+        iconPath
+        userName
+      }
+    }
   }
 }
     `;

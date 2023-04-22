@@ -4,9 +4,11 @@ import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
 import { Box, Button } from "@mui/material";
+import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function CreateRoom() {
+    const router = useRouter();
     const [, setMeetingState] = useRecoilState(meetingAtom);
     const [, setLogModalState] = useRecoilState(logModalAtom);
     const { userId } = useRecoilValue(userAtom);
@@ -25,6 +27,7 @@ export default function CreateRoom() {
                 message: `部屋を作成しました`,
                 status: "success",
             });
+            router.push("./meeting");
         },
     });
     const handleMakeRoom = async () => {
