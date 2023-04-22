@@ -23,7 +23,6 @@ const InviteRoom = ({
     id,
     title,
 }: Pick<Users, "userName" | "iconPath"> & Pick<MeetingLog, "id" | "title">) => {
-    console.log(title);
     return (
         <Button href={`/meeting/${id}`}>
             <Stack>

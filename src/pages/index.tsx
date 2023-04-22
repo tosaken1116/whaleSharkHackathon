@@ -1,22 +1,14 @@
-import Header from "@/components/Common/Header";
-import CreateRoom from "@/components/Room/CreateRoom";
-import DeleteRoom from "@/components/Room/DeleteRoom";
-import InviteUserForm from "@/components/Room/InviteUserForm";
-
-import React from "react";
-
-import { Box, Button, Typography, Grid, Stack } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
+import { useAuthentication } from "@/hooks/server";
+import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
+import BedtimeRoundedIcon from "@mui/icons-material/BedtimeRounded";
+import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import CoffeeRoundedIcon from "@mui/icons-material/CoffeeRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FilterDramaOutlinedIcon from "@mui/icons-material/FilterDramaOutlined";
+import LoginIcon from "@mui/icons-material/Login";
 import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import AudiotrackRoundedIcon from "@mui/icons-material/AudiotrackRounded";
-import BedtimeRoundedIcon from "@mui/icons-material/BedtimeRounded";
-import CoffeeRoundedIcon from "@mui/icons-material/CoffeeRounded";
-import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { useAuthentication } from "@/hooks/server";
 const Icons = () => {
     return (
         <>

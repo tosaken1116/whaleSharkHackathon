@@ -7,5 +7,6 @@ export const userAtom = atom({
         isLogin: false,
         userName: "",
         iconPath: "",
+        email: "",
     },
 });

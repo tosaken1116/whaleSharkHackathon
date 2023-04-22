@@ -1135,6 +1135,14 @@ export type UpdateUserNameMutationVariables = Exact<{
 
 export type UpdateUserNameMutation = { __typename?: 'mutation_root', updateUsersByPk?: { __typename?: 'Users', userName?: string | null } | null };
 
+export type CloseRoomMutationVariables = Exact<{
+  meetingId: Scalars['uuid'];
+  closedAt: Scalars['timestamptz'];
+}>;
+
+
+export type CloseRoomMutation = { __typename?: 'mutation_root', updateMeetingLogByPk?: { __typename?: 'MeetingLog', closedAt?: string | null } | null };
+
 export type CreateRoomMutationVariables = Exact<{
   ownerId: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;
@@ -1142,13 +1150,6 @@ export type CreateRoomMutationVariables = Exact<{
 
 
 export type CreateRoomMutation = { __typename?: 'mutation_root', insertMeetingLogOne?: { __typename?: 'MeetingLog', id: string, title?: string | null } | null };
-
-export type DeleteRoomMutationVariables = Exact<{
-  meetingId: Scalars['uuid'];
-}>;
-
-
-export type DeleteRoomMutation = { __typename?: 'mutation_root', deleteMeetingLogByPk?: { __typename?: 'MeetingLog', ownerId?: string | null } | null };
 
 export type InviteMeetingUserMutationVariables = Exact<{
   userEmail: Scalars['String'];
@@ -1236,6 +1237,40 @@ export function useUpdateUserNameMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateUserNameMutationHookResult = ReturnType<typeof useUpdateUserNameMutation>;
 export type UpdateUserNameMutationResult = Apollo.MutationResult<UpdateUserNameMutation>;
 export type UpdateUserNameMutationOptions = Apollo.BaseMutationOptions<UpdateUserNameMutation, UpdateUserNameMutationVariables>;
+export const CloseRoomDocument = gql`
+    mutation CloseRoom($meetingId: uuid!, $closedAt: timestamptz!) {
+  updateMeetingLogByPk(pkColumns: {id: $meetingId}, _set: {closedAt: $closedAt}) {
+    closedAt
+  }
+}
+    `;
+export type CloseRoomMutationFn = Apollo.MutationFunction<CloseRoomMutation, CloseRoomMutationVariables>;
+
+/**
+ * __useCloseRoomMutation__
+ *
+ * To run a mutation, you first call `useCloseRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCloseRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [closeRoomMutation, { data, loading, error }] = useCloseRoomMutation({
+ *   variables: {
+ *      meetingId: // value for 'meetingId'
+ *      closedAt: // value for 'closedAt'
+ *   },
+ * });
+ */
+export function useCloseRoomMutation(baseOptions?: Apollo.MutationHookOptions<CloseRoomMutation, CloseRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CloseRoomMutation, CloseRoomMutationVariables>(CloseRoomDocument, options);
+      }
+export type CloseRoomMutationHookResult = ReturnType<typeof useCloseRoomMutation>;
+export type CloseRoomMutationResult = Apollo.MutationResult<CloseRoomMutation>;
+export type CloseRoomMutationOptions = Apollo.BaseMutationOptions<CloseRoomMutation, CloseRoomMutationVariables>;
 export const CreateRoomDocument = gql`
     mutation createRoom($ownerId: String!, $title: String = "") {
   insertMeetingLogOne(object: {log: "", ownerId: $ownerId, title: $title}) {
@@ -1271,39 +1306,6 @@ export function useCreateRoomMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
 export type CreateRoomMutationResult = Apollo.MutationResult<CreateRoomMutation>;
 export type CreateRoomMutationOptions = Apollo.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;
-export const DeleteRoomDocument = gql`
-    mutation DeleteRoom($meetingId: uuid!) {
-  deleteMeetingLogByPk(id: $meetingId) {
-    ownerId
-  }
-}
-    `;
-export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
-
-/**
- * __useDeleteRoomMutation__
- *
- * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
- *   variables: {
- *      meetingId: // value for 'meetingId'
- *   },
- * });
- */
-export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
-      }
-export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
-export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
-export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
 export const InviteMeetingUserDocument = gql`
     mutation InviteMeetingUser($userEmail: String!, $meetingId: uuid!) {
   insertMeetingUsersOne(object: {meetingId: $meetingId, userEmail: $userEmail}) {

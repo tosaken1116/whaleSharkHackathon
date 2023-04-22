@@ -1,6 +1,7 @@
 import MeetingLog from "@/components/Meeting/MeetingLog";
 import MeetingUsers from "@/components/Meeting/MeetingUsers";
 import SpeechRecognitionComponent from "@/components/Meeting/Speech";
+import CloseRoom from "@/components/Room/CloseRoom";
 import InviteUserForm from "@/components/Room/InviteUserForm";
 import { useUserStatus } from "@/hooks/client";
 import { useMeetingLog } from "@/hooks/server";
@@ -22,7 +23,10 @@ export default function Meeting() {
             </Grid>
             <Grid item xs={12} sm={6}>
                 <Stack spacing={2}>
-                    <SpeechRecognitionComponent />
+                    <Stack direction="row">
+                        <SpeechRecognitionComponent />
+                        <CloseRoom />
+                    </Stack>
                     <MeetingUsers meetingUsers={meetingUsers ?? []} />
                     <InviteUserForm />
                 </Stack>

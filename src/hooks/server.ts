@@ -80,6 +80,7 @@ export const useAuthentication = () => {
                     isLogin: true,
                     iconPath: user.photoURL ?? "",
                     userName: user.displayName ?? "匿名希望",
+                    email: user.email ?? "",
                 });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
