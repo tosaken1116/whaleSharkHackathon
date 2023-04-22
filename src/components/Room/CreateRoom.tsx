@@ -2,10 +2,10 @@ import { useCreateRoomMutation } from "@/generates/graphql";
 import { useInitializeUser, useLoading, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
+import LoginIcon from "@mui/icons-material/Login";
 import { Box, Button } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
-
 export default function CreateRoom() {
     const router = useRouter();
     const [, setMeetingState] = useRecoilState(meetingAtom);
@@ -39,7 +39,9 @@ export default function CreateRoom() {
 
     return (
         <Box>
-            <Button onClick={() => handleMakeRoom()}>make room</Button>
+            <Button onClick={() => handleMakeRoom()} startIcon={<LoginIcon />}>
+                新しく部屋を作る
+            </Button>
         </Box>
     );
 }

@@ -1,8 +1,8 @@
-query GetInvitedMeeting($userId: String!) {
+query GetMeetingDocuments($userId: String!) {
     meetingUsers(
         where: {
             userDetail: { id: { _eq: $userId } }
-            meetingDetail: { closedAt: { _isNull: true } }
+            meetingDetail: { closedAt: { _isNull: false } }
         }
     ) {
         meetingDetail {
@@ -10,6 +10,7 @@ query GetInvitedMeeting($userId: String!) {
                 iconPath
                 userName
             }
+            closedAt
         }
         meetingId
     }

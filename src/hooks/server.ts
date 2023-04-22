@@ -18,7 +18,6 @@ import { useRecoilState } from "recoil";
 import { useLocalStorage, useLogModal } from "./client";
 
 export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
-    const router = useRouter();
     const { errorHandle } = useLogModal();
 
     const { data: initialLog } = useGetMeetingLogQuery({
@@ -57,7 +56,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
 };
 export const useAuthentication = () => {
     const router = useRouter();
-    const [userState, setUserState] = useRecoilState(userAtom);
+    const [, setUserState] = useRecoilState(userAtom);
     const firebaseConfig = {
         apiKey: process.env.NEXT_PUBLIC_APIKEY,
         authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
@@ -83,7 +82,7 @@ export const useAuthentication = () => {
                 });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
-                    // router.reload();
+                    router.push("/meeting");
                 });
             }
         });
