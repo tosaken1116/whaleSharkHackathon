@@ -1,0 +1,8 @@
+mutation CloseRoom($meetingId: uuid!, $closedAt: timestamptz!) {
+    updateMeetingLogByPk(
+        pkColumns: { id: $meetingId }
+        _set: { closedAt: $closedAt }
+    ) {
+        closedAt
+    }
+}

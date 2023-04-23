@@ -1,0 +1,5 @@
+query getUserName($userId: String!) {
+    usersByPk(id: $userId) {
+        userName
+    }
+}

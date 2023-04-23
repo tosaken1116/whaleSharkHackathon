@@ -1,0 +1,17 @@
+query GetInvitedMeeting($userId: String!) {
+    meetingUsers(
+        where: {
+            userDetail: { id: { _eq: $userId } }
+            meetingDetail: { closedAt: { _isNull: true } }
+        }
+    ) {
+        meetingDetail {
+            ownerDetail {
+                iconPath
+                userName
+            }
+            title
+        }
+        meetingId
+    }
+}

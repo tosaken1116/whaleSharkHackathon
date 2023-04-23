@@ -1,0 +1,6 @@
+mutation createRoom($ownerId: String!, $title: String = "") {
+    insertMeetingLogOne(object: { log: "", ownerId: $ownerId, title: $title }) {
+        id
+        title
+    }
+}

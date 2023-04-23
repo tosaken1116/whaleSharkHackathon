@@ -1,0 +1,18 @@
+query GetMeetingDocuments($userId: String!) {
+    meetingUsers(
+        where: {
+            userDetail: { id: { _eq: $userId } }
+            meetingDetail: { closedAt: { _isNull: false } }
+        }
+    ) {
+        meetingDetail {
+            ownerDetail {
+                iconPath
+                userName
+            }
+            closedAt
+            title
+        }
+        meetingId
+    }
+}

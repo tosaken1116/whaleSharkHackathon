@@ -1,0 +1,5 @@
+mutation updateUserName($userId: String!, $userName: String!) {
+    updateUsersByPk(pkColumns: { id: $userId }, _set: { userName: $userName }) {
+        userName
+    }
+}

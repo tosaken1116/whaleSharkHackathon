@@ -1,0 +1,15 @@
+query GetMeetingLog($meetingId: uuid!) {
+    meetingLogByPk(id: $meetingId) {
+        log
+        meetingUsers {
+            userDetail {
+                email
+                iconPath
+                userName
+            }
+        }
+        ownerId
+        closedAt
+        title
+    }
+}

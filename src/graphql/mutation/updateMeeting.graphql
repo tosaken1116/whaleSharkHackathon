@@ -1,0 +1,8 @@
+mutation updateMeeting($meetingId: uuid!, $updateLog: String!) {
+    updateMeetingLogByPk(
+        pkColumns: { id: $meetingId }
+        _set: { log: $updateLog }
+    ) {
+        log
+    }
+}

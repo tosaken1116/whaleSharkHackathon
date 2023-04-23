@@ -1,0 +1,7 @@
+mutation InviteMeetingUser($userEmail: String!, $meetingId: uuid!) {
+    insertMeetingUsersOne(
+        object: { meetingId: $meetingId, userEmail: $userEmail }
+    ) {
+        userEmail
+    }
+}
