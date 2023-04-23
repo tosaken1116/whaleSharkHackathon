@@ -3,6 +3,7 @@ import { useLoading } from "@/hooks/client";
 import { useAuthentication } from "@/hooks/server";
 import { castQueryToArray } from "@/libs";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Invitation() {
     const router = useRouter();
@@ -23,9 +24,12 @@ export default function Invitation() {
     });
     inviteUser();
     useLoading({ isLoading: loading, message: "参加しています..." });
-    if (!loading) {
-        router.push(
-            `${protocol}//${domainName}/invitation?meetingId=${meetingId}`
-        );
-    }
+    useEffect(() => {
+        if (!loading) {
+            router.push(
+                `${protocol}//${domainName}/invitation?meetingId=${meetingId}`
+            );
+        }
+    }, []);
+    return <></>;
 }
