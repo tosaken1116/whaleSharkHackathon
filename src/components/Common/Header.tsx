@@ -12,13 +12,14 @@ import {
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { MeetingUser } from "../Meeting/MeetingUsers";
+import HamburgerMenu from "./HamburgerMenu";
 import SideBar from "./SideBar";
 
 const drawerWidth = 240;
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
-
+    const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
     const { login } = useAuthentication();
     const { userId, isLogin, iconPath, userName } = useRecoilValue(userAtom);
 
@@ -50,10 +51,20 @@ export default function Header() {
                             ログイン
                         </Button>
                     ) : (
-                        <MeetingUser {...{ iconPath, userName }} />
+                        <Button
+                            onClick={() =>
+                                setIsHamburgerMenuOpen(!isHamburgerMenuOpen)
+                            }
+                        >
+                            <MeetingUser {...{ iconPath, userName }} />
+                        </Button>
                     )}
                 </Toolbar>
             </AppBar>
+            <HamburgerMenu
+                isOpen={isHamburgerMenuOpen}
+                setIsOpen={setIsHamburgerMenuOpen}
+            />
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
         </Box>
     );

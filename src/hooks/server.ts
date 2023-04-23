@@ -48,7 +48,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
     });
     useEffect(() => {
         setMeeting({
-            ownerId,
+            ownerId: data?.meetingLogByPk?.ownerId,
             log: data?.meetingLogByPk?.log,
             meetingUsers: data?.meetingLogByPk?.meetingUsers,
         });
