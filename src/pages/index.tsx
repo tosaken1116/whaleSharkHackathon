@@ -103,7 +103,7 @@ const Home = () => {
                 }}
             >
                 <Button
-                    onClick={() => login()}
+                    onClick={() => login(true)}
                     variant="contained"
                     size="large"
                     endIcon={<LoginIcon />}

@@ -1,3 +1,4 @@
+import QRCodeGenerator from "@/components/Common/QrCode";
 import MeetingLog from "@/components/Meeting/MeetingLog";
 import MeetingUsers from "@/components/Meeting/MeetingUsers";
 import SpeechRecognitionComponent from "@/components/Meeting/Speech";
@@ -7,17 +8,17 @@ import LeaveRoom from "@/components/Room/LeaveRoom";
 import { useUserStatus } from "@/hooks/client";
 import { useMeetingLog } from "@/hooks/server";
 import { castQueryToArray } from "@/libs";
-import { Grid, Stack } from "@mui/material";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import { Button, Grid, Stack } from "@mui/material";
 import { useRouter } from "next/router";
-
+import { useState } from "react";
 export default function Meeting() {
     const router = useRouter();
     const { userId } = useUserStatus({ redirect: true });
     const { meetingUsers, log, ownerId } = useMeetingLog({
         meetingId: castQueryToArray(router.query.meetingId ?? "")[0],
     });
-    console.log("userId", userId);
-    console.log("ownerId", ownerId);
+    const [isQrOpen, setIsQrOpen] = useState(false);
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -32,6 +33,21 @@ export default function Meeting() {
                             <></>
                         )}
                         {userId == ownerId ? <CloseRoom /> : <LeaveRoom />}
+                        <Button
+                            startIcon={<QrCodeIcon />}
+                            onClick={() => setIsQrOpen(true)}
+                        >
+                            Qrコードを表示
+                        </Button>
+                        <QRCodeGenerator
+                            isOpen={isQrOpen}
+                            setIsOpen={setIsQrOpen}
+                            id={
+                                castQueryToArray(
+                                    router.query.meetingId ?? ""
+                                )[0]
+                            }
+                        />
                     </Stack>
                     <MeetingUsers meetingUsers={meetingUsers ?? []} />
                     <InviteUserForm />

@@ -47,7 +47,7 @@ export default function Header() {
                     </Typography>
                     <Box style={{ flexGrow: 1 }}></Box>
                     {!isLogin ? (
-                        <Button color="inherit" onClick={() => login()}>
+                        <Button color="inherit" onClick={() => login(true)}>
                             ログイン
                         </Button>
                     ) : (
