@@ -7,16 +7,27 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+const minRequestInterval = 30000;
+let lastRequestTime = 0;
 
 export const useChatGPT = () => {
     const [{ data, error }, setData] = useState({
         data: "",
         error: false,
     });
-    var isCorrecting = false;
     const getCorrectedText = async (unCorrectedText: string) => {
-        if (unCorrectedText != "" && !isCorrecting) {
-            isCorrecting = true;
+        const currentTime = new Date().getTime();
+        const timeSinceLastRequest = currentTime - lastRequestTime;
+
+        if (timeSinceLastRequest < minRequestInterval) {
+            console.log(
+                `前回のリクエストから${
+                    minRequestInterval / 1000
+                }秒待ってください。`
+            );
+            return;
+        }
+        if (unCorrectedText != "") {
             try {
                 const response = await axios.post("/api/correction", {
                     messages: {
@@ -28,15 +39,14 @@ export const useChatGPT = () => {
                     data: response.data.messages.content,
                     error: false,
                 });
-                isCorrecting = false;
             } catch (e) {
                 setData({
                     error: true,
                     data: unCorrectedText,
                 });
-                isCorrecting = false;
             }
         }
+        lastRequestTime = currentTime;
     };
 
     return { data, error, getCorrectedText };
