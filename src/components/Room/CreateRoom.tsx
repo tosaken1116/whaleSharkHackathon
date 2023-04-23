@@ -17,16 +17,16 @@ export default function CreateRoom() {
     const { errorHandle, successHandle } = useLogModal();
     const [title, setTitle] = useState("");
 
-    const [inviteUser, { data }] = useInviteMeetingUserMutation({
+    const [inviteUser] = useInviteMeetingUserMutation({
         variables: {
             userEmail: email,
             meetingId: meetingId,
         },
         onError: (e) =>
             errorHandle({ message: `招待に失敗しました:${e.message}` }),
-        onCompleted: () => {
+        onCompleted: (result) => {
             successHandle({
-                message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
+                message: `${result?.insertMeetingUsersOne?.userEmail}を招待しました`,
             });
             router.push(`./meeting/${meetingId}`);
         },

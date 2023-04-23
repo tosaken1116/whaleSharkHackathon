@@ -3,6 +3,7 @@ import { useLoading, useLogModal } from "@/hooks/client";
 import { formatDate } from "@/libs";
 import { meetingAtom } from "@/state/meetingAtom";
 import { Button } from "@mui/material";
+import { format, parseISO } from "date-fns";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 
@@ -20,7 +21,10 @@ export default function CloseRoom() {
             errorHandle({ message: `部屋終了に失敗しました:${e.message}` }),
         onCompleted: (result) => {
             successHandle({
-                message: `部屋を終了しました ${result.updateMeetingLogByPk?.closedAt}`,
+                message: `部屋を終了しました ${format(
+                    parseISO(result.updateMeetingLogByPk?.closedAt ?? ""),
+                    "yyyy/MM/dd HH:mm"
+                )}`,
             });
             router.push("/meeting");
         },
