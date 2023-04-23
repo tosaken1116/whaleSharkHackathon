@@ -22,16 +22,35 @@ const InviteRoom = ({
     iconPath,
     id,
     title,
-}: Pick<Users, "userName" | "iconPath"> & Pick<MeetingLog, "id" | "title">) => {
+    ownerId,
+}: Pick<Users, "userName" | "iconPath"> &
+    Pick<MeetingLog, "id" | "title" | "ownerId">) => {
+    const { userId } = useRecoilValue(userAtom);
     return (
         <Button href={`/meeting/${id}`}>
             <Stack>
                 <Typography variant="body1">タイトル:{title}</Typography>
                 <Stack direction="row">
-                    <MeetingUser {...{ userName, iconPath }} />
-                    <Box alignSelf="center">
-                        <Typography variant="h5">に招待されています</Typography>
-                    </Box>
+                    {userId == ownerId ? (
+                        <>
+                            <MeetingUser {...{ userName, iconPath }} />
+                            <Box alignSelf="center">
+                                <Typography variant="h5">
+                                    に招待されています
+                                </Typography>
+                            </Box>
+                        </>
+                    ) : (
+                        <>
+                            {" "}
+                            <MeetingUser {...{ userName: "私", iconPath }} />
+                            <Box alignSelf="center">
+                                <Typography variant="h5">
+                                    が作成しました
+                                </Typography>
+                            </Box>
+                        </>
+                    )}
                 </Stack>
             </Stack>
         </Button>
