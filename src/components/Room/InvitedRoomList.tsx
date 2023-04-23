@@ -28,7 +28,13 @@ const InviteRoom = ({
     const { userId } = useRecoilValue(userAtom);
     return (
         <Button href={`/meeting/${id}`}>
-            <Stack>
+            <Stack
+                direction="row"
+                color="#3d63d2"
+                bgcolor="#fef4e8"
+                p={1}
+                borderRadius="14px"
+            >
                 <Typography variant="body1">タイトル:{title}</Typography>
                 <Stack direction="row">
                     {userId == ownerId ? (
@@ -95,7 +101,7 @@ export default function InvitedRoomList() {
                 }}
             >
                 <Slide in direction="up">
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                         招待されているミーティングはなかったよ(´・ω・)
                     </Typography>
                 </Slide>

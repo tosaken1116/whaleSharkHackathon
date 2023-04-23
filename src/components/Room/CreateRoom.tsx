@@ -6,10 +6,11 @@ import { useLoading, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
 import LoginIcon from "@mui/icons-material/Login";
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+
 export default function CreateRoom() {
     const router = useRouter();
     const [{ meetingId }, setMeetingState] = useRecoilState(meetingAtom);
@@ -61,7 +62,15 @@ export default function CreateRoom() {
     useLoading({ isLoading: loading, message: "部屋を作成しています..." });
 
     return (
-        <Stack spacing={3}>
+        <Stack
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+            }}
+            spacing={3}
+        >
             <TextField
                 value={title}
                 label="タイトルを入力"
@@ -69,8 +78,17 @@ export default function CreateRoom() {
                     setTitle(e.target.value)
                 }
             />
-            <Button onClick={() => handleMakeRoom()} startIcon={<LoginIcon />}>
-                新しく部屋を作る
+            <Button
+                onClick={() => handleMakeRoom()}
+                startIcon={
+                    <LoginIcon
+                        sx={{ color: "#f18a19", fontSize: "100px" }}
+                    ></LoginIcon>
+                }
+            >
+                <Typography variant="h4" color="#f18a19">
+                    新しく部屋を作る
+                </Typography>
             </Button>
         </Stack>
     );

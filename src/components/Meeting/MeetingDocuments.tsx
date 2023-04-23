@@ -2,17 +2,42 @@ import { MeetingLog, useGetMeetingDocumentsQuery } from "@/generates/graphql";
 import { useLoading } from "@/hooks/client";
 import { userAtom } from "@/state/userAtom";
 import ArticleIcon from "@mui/icons-material/Article";
-import { Box, Button, List, ListItem, Slide, Typography } from "@mui/material";
+import { Box, Button, Slide, Typography, Grid } from "@mui/material";
 import { useRecoilValue } from "recoil";
 import Date from "../Common/Data";
+
 const DocumentCard = ({
     id,
     closedAt,
 }: Pick<MeetingLog, "id" | "closedAt">) => {
     return (
-        <Button href={`/meeting/${id}`} sx={{ position: "relative" }}>
-            <Date dateString={closedAt ?? ""} />
-            <ArticleIcon sx={{ position: "absolute" }} />
+        <Button href={`/meeting/${id}`}>
+            <Grid spacing={0.5}>
+                <Grid display="inline-block">
+                    <Grid
+                        sx={{
+                            textAlign: "center",
+                        }}
+                    >
+                        <ArticleIcon
+                            sx={{
+                                fontSize: "80px",
+                                color: "#161f52",
+                            }}
+                        ></ArticleIcon>
+                    </Grid>
+                    <Grid
+                        sx={{
+                            display: "block",
+                            textAlign: "center",
+                            fontSize: "10pt",
+                            color: "#161f52",
+                        }}
+                    >
+                        <Date dateString={closedAt ?? ""} />
+                    </Grid>
+                </Grid>
+            </Grid>
         </Button>
     );
 };
@@ -25,24 +50,26 @@ export default function MeetingDocuments() {
     useLoading({ isLoading: loading, message: "過去の議事録を取得中..." });
     if (data?.meetingUsers.length != 0) {
         return (
-            <List
+            <Grid
                 sx={{
                     width: "50vw",
                     height: "92vh",
                     textAlign: "center",
                 }}
+                container
+                spacing={2}
             >
                 {data?.meetingUsers.map((meeting) => (
-                    <ListItem key={meeting.meetingId}>
+                    <Grid item key={meeting.meetingId}>
                         <DocumentCard
                             {...{
                                 id: meeting.meetingId ?? "",
                                 closedAt: meeting.meetingDetail?.closedAt ?? "",
                             }}
                         />
-                    </ListItem>
+                    </Grid>
                 ))}
-            </List>
+            </Grid>
         );
     } else {
         return (
@@ -53,7 +80,7 @@ export default function MeetingDocuments() {
                     textAlign: "center",
                 }}
             >
-                <Box sx={{ mt: 12 }}>
+                <Box>
                     <Slide in direction="up">
                         <Typography variant="h5">
                             議事録がないよ(´・ω・)

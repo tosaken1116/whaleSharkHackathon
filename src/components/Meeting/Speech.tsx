@@ -52,7 +52,7 @@ const SpeechRecognitionComponent = () => {
                     color: isRecording ? "red" : "black",
                 }}
             >
-                <MicIcon />
+                <MicIcon sx={{ fontSize: "50px" }}></MicIcon>
             </IconButton>
             <p>{transcript}</p>
         </Box>
