@@ -16,6 +16,8 @@ export default function Meeting() {
     const { meetingUsers, log, ownerId } = useMeetingLog({
         meetingId: castQueryToArray(router.query.meetingId ?? "")[0],
     });
+    console.log("userId", userId);
+    console.log("ownerId", ownerId);
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

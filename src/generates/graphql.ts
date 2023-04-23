@@ -1200,7 +1200,7 @@ export type RefreshMeetingLogSubscriptionVariables = Exact<{
 }>;
 
 
-export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 
 export const UpdateUserNameDocument = gql`
@@ -1553,6 +1553,7 @@ export const RefreshMeetingLogDocument = gql`
         userName
       }
     }
+    ownerId
   }
 }
     `;

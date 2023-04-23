@@ -12,7 +12,7 @@ export const MeetingUser = ({ iconPath, userName }: Partial<Users>) => {
                 height={40}
                 style={{ borderRadius: "999px" }}
             />
-            <Typography variant="h4" alignSelf="center">
+            <Typography variant="h4" color="ButtonHighLight" alignSelf="center">
                 {userName}
             </Typography>
         </Stack>

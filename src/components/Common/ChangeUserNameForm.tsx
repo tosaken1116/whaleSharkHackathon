@@ -4,17 +4,19 @@ import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import { Button, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 export function ChangeUserNameForm() {
-    const { userId, userName } = useUserStatus({ redirect: true });
+    const { userId, userName, refetch } = useUserStatus({ redirect: true });
     const [changedName, setChangeName] = useState(userName);
     const { errorHandle, successHandle } = useLogModal();
     const [changeName, { loading }] = useUpdateUserNameMutation({
         variables: { userId: userId, userName: changedName ?? "" },
         onError: (e) =>
             errorHandle({ message: `ユーザー名を変更できませんでした${e}` }),
-        onCompleted: (data) =>
+        onCompleted: (result) => {
             successHandle({
-                message: `ユーザー名を${data.updateUsersByPk?.userName}に変更しました`,
-            }),
+                message: `ユーザー名を${result.updateUsersByPk?.userName}に変更しました`,
+            });
+            refetch();
+        },
     });
     const handleChangeName = () => {
         if (userName === changedName) {

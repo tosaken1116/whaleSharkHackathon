@@ -8,5 +8,6 @@ subscription RefreshMeetingLog($meetingId: uuid!) {
                 userName
             }
         }
+        ownerId
     }
 }

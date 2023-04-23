@@ -58,7 +58,7 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
     if (!userState.userId && redirect && router.isReady) {
         router.push("/");
     }
-    const { data } = useGetUserNameQuery({
+    const { data, refetch } = useGetUserNameQuery({
         variables: { userId: userState.userId },
     });
     useEffect(() => {
@@ -66,7 +66,7 @@ export const useUserStatus = ({ redirect }: { redirect: boolean }) => {
             setIsLoading(false);
         }
     }, [router.isReady]);
-    return { ...userState, ...data?.usersByPk };
+    return { ...userState, ...data?.usersByPk, refetch };
 };
 export const useLogModal = () => {
     const [, setLogModalState] = useRecoilState(logModalAtom);
