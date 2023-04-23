@@ -2,6 +2,7 @@ import { useCloseRoomMutation } from "@/generates/graphql";
 import { useLoading, useLogModal } from "@/hooks/client";
 import { formatDate } from "@/libs";
 import { meetingAtom } from "@/state/meetingAtom";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "next/router";
@@ -31,5 +32,9 @@ export default function CloseRoom() {
     });
     useLoading({ isLoading: loading, message: "部屋を終了しています..." });
 
-    return <Button onClick={() => closeRoom()}>部屋を終了する</Button>;
+    return (
+        <Button onClick={() => closeRoom()} startIcon={<LogoutIcon />}>
+            部屋を終了する
+        </Button>
+    );
 }

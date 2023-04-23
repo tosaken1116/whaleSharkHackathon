@@ -1179,7 +1179,7 @@ export type GetMeetingLogQueryVariables = Exact<{
 }>;
 
 
-export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, closedAt?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, closedAt?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 export type GetMeetingDocumentsQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -1429,6 +1429,7 @@ export const GetMeetingLogDocument = gql`
         userName
       }
     }
+    ownerId
     closedAt
   }
 }

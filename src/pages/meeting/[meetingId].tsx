@@ -3,6 +3,7 @@ import MeetingUsers from "@/components/Meeting/MeetingUsers";
 import SpeechRecognitionComponent from "@/components/Meeting/Speech";
 import CloseRoom from "@/components/Room/CloseRoom";
 import InviteUserForm from "@/components/Room/InviteUserForm";
+import LeaveRoom from "@/components/Room/LeaveRoom";
 import { useUserStatus } from "@/hooks/client";
 import { useMeetingLog } from "@/hooks/server";
 import { castQueryToArray } from "@/libs";
@@ -11,11 +12,10 @@ import { useRouter } from "next/router";
 
 export default function Meeting() {
     const router = useRouter();
-    useUserStatus({ redirect: true });
-    const { meetingUsers, log } = useMeetingLog({
+    const { userId } = useUserStatus({ redirect: true });
+    const { meetingUsers, log, ownerId } = useMeetingLog({
         meetingId: castQueryToArray(router.query.meetingId ?? "")[0],
     });
-
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -24,8 +24,12 @@ export default function Meeting() {
             <Grid item xs={12} sm={6}>
                 <Stack spacing={2}>
                     <Stack direction="row">
-                        <SpeechRecognitionComponent />
-                        <CloseRoom />
+                        {userId == ownerId ? (
+                            <SpeechRecognitionComponent />
+                        ) : (
+                            <></>
+                        )}
+                        {userId == ownerId ? <CloseRoom /> : <LeaveRoom />}
                     </Stack>
                     <MeetingUsers meetingUsers={meetingUsers ?? []} />
                     <InviteUserForm />
