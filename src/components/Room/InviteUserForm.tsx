@@ -1,26 +1,24 @@
 import { useInviteMeetingUserMutation } from "@/generates/graphql";
 import { useLoading, useLogModal } from "@/hooks/client";
-import { logModalAtom } from "@/state/logModalAtom";
 import { meetingAtom } from "@/state/meetingAtom";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { Box, IconButton, Stack, TextField } from "@mui/material";
 import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 export default function InviteUserForm() {
     const [inviteEmail, setInviteEmail] = useState("");
     const { meetingId } = useRecoilValue(meetingAtom);
-    const [, setLogModalState] = useRecoilState(logModalAtom);
     const { errorHandle, successHandle } = useLogModal();
-    const [inviteUser, { data, loading }] = useInviteMeetingUserMutation({
+    const [inviteUser, { loading }] = useInviteMeetingUserMutation({
         variables: {
             userEmail: inviteEmail,
             meetingId: meetingId,
         },
         onError: (e) =>
             errorHandle({ message: `招待に失敗しました:${e.message}` }),
-        onCompleted: () =>
+        onCompleted: (result) =>
             successHandle({
-                message: `${data?.insertMeetingUsersOne?.userEmail}を招待しました`,
+                message: `${result?.insertMeetingUsersOne?.userEmail}を招待しました`,
             }),
     });
     const handleClick = () => {

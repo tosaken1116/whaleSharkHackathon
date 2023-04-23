@@ -8,6 +8,7 @@ query GetMeetingLog($meetingId: uuid!) {
                 userName
             }
         }
+        ownerId
         closedAt
     }
 }

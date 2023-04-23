@@ -30,8 +30,9 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
             }
         },
     });
-    const [{ log, meetingUsers }, setMeeting] = useState({
+    const [{ log, meetingUsers, ownerId }, setMeeting] = useState({
         log: initialLog?.meetingLogByPk?.log,
+        ownerId: initialLog?.meetingLogByPk?.ownerId,
         meetingUsers: initialLog?.meetingLogByPk?.meetingUsers,
     });
 
@@ -47,11 +48,12 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
     });
     useEffect(() => {
         setMeeting({
+            ownerId,
             log: data?.meetingLogByPk?.log,
             meetingUsers: data?.meetingLogByPk?.meetingUsers,
         });
     }, [data]);
-    return { log, meetingUsers };
+    return { log, ownerId, meetingUsers };
 };
 export const useAuthentication = () => {
     const router = useRouter();
