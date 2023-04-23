@@ -1,9 +1,7 @@
 import { MeetingLog, useGetMeetingDocumentsQuery } from "@/generates/graphql";
-import { useLoading } from "@/hooks/client";
-import { userAtom } from "@/state/userAtom";
+import { useLoading, useLocalStorage } from "@/hooks/client";
 import ArticleIcon from "@mui/icons-material/Article";
-import { Box, Button, Slide, Typography, Grid } from "@mui/material";
-import { useRecoilValue } from "recoil";
+import { Box, Button, Grid, Slide, Typography } from "@mui/material";
 import Date from "../Common/Data";
 
 const DocumentCard = ({
@@ -11,7 +9,7 @@ const DocumentCard = ({
     closedAt,
 }: Pick<MeetingLog, "id" | "closedAt">) => {
     return (
-        <Button href={`/meeting/${id}`}>
+        <Button href={`/documents/${id}`}>
             <Grid spacing={0.5}>
                 <Grid display="inline-block">
                     <Grid
@@ -43,7 +41,8 @@ const DocumentCard = ({
 };
 
 export default function MeetingDocuments() {
-    const { userId } = useRecoilValue(userAtom);
+    const { getLocalStorage } = useLocalStorage();
+    const userId = getLocalStorage("userId") ?? "";
     const { data, loading } = useGetMeetingDocumentsQuery({
         variables: { userId },
     });
