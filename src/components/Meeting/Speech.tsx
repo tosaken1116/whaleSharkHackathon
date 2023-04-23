@@ -21,7 +21,7 @@ const SpeechRecognitionComponent = () => {
             updateLog: data,
         },
         onError: (e) => {
-            errorHandle({ message: `議事録の同期に失敗しました:${e}` });
+            console.log(e);
         },
     });
     const handleListen = () => {
