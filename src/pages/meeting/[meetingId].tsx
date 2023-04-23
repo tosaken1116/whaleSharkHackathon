@@ -15,14 +15,14 @@ import { useState } from "react";
 export default function Meeting() {
     const router = useRouter();
     const { userId } = useUserStatus({ redirect: true });
-    const { meetingUsers, log, ownerId } = useMeetingLog({
+    const { meetingUsers, log, ownerId, title } = useMeetingLog({
         meetingId: castQueryToArray(router.query.meetingId ?? "")[0],
     });
     const [isQrOpen, setIsQrOpen] = useState(false);
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-                <MeetingLog log={log ?? ""} />
+                <MeetingLog log={log ?? ""} title={title} />
             </Grid>
             <Grid item xs={12} sm={6}>
                 <Stack spacing={2}>

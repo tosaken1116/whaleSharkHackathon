@@ -30,10 +30,11 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
             }
         },
     });
-    const [{ log, meetingUsers, ownerId }, setMeeting] = useState({
+    const [{ log, meetingUsers, ownerId, title }, setMeeting] = useState({
         log: initialLog?.meetingLogByPk?.log,
         ownerId: initialLog?.meetingLogByPk?.ownerId,
         meetingUsers: initialLog?.meetingLogByPk?.meetingUsers,
+        title: initialLog?.meetingLogByPk?.title,
     });
 
     const { data } = useRefreshMeetingLogSubscription({
@@ -51,9 +52,10 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
             ownerId: data?.meetingLogByPk?.ownerId,
             log: data?.meetingLogByPk?.log,
             meetingUsers: data?.meetingLogByPk?.meetingUsers,
+            title: data?.meetingLogByPk?.title,
         });
     }, [data]);
-    return { log, ownerId, meetingUsers };
+    return { log, ownerId, meetingUsers, title };
 };
 export const useAuthentication = () => {
     const router = useRouter();
