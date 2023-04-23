@@ -14,7 +14,6 @@ export default function QRCodeGenerator({
 
     const domainName =
         typeof window !== "undefined" ? window.location.host : "";
-
     return (
         <Modal
             open={isOpen}

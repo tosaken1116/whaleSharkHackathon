@@ -1,5 +1,6 @@
 import {
     useGetMeetingLogQuery,
+    useInviteMeetingUserMutation,
     useRefreshMeetingLogSubscription,
 } from "@/generates/graphql";
 import { userAtom } from "@/state/userAtom";
@@ -10,6 +11,7 @@ import {
     getAuth,
     onAuthStateChanged,
     signInWithPopup,
+    signInWithRedirect,
     signOut,
 } from "@firebase/auth";
 import { useRouter } from "next/router";
@@ -59,6 +61,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
 };
 export const useAuthentication = () => {
     const router = useRouter();
+    const [inviteUser, { loading }] = useInviteMeetingUserMutation();
     const [, setUserState] = useRecoilState(userAtom);
     const firebaseConfig = {
         apiKey: process.env.NEXT_PUBLIC_APIKEY,
@@ -69,7 +72,6 @@ export const useAuthentication = () => {
         appId: process.env.NEXT_PUBLIC_APPID,
         measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID,
     };
-
     const app = initializeApp(firebaseConfig);
     const { removeLocalStorage, setLocalStorage } = useLocalStorage();
     const auth = getAuth(app);
@@ -97,11 +99,36 @@ export const useAuthentication = () => {
         });
         return "";
     };
+    const inviteLogin = (meetingId: string, redirectUrl: string) => {
+        const provider = new GoogleAuthProvider();
+        signInWithRedirect(auth, provider);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUserState({
+                    userId: user.uid,
+                    isLogin: true,
+                    iconPath: user.photoURL ?? "",
+                    userName: user.displayName ?? "匿名希望",
+                    email: user.email ?? "",
+                });
+                user.getIdToken().then((token) => {
+                    setLocalStorage({ authToken: token, userId: user.uid });
+                });
+                if (user.email != undefined) {
+                    inviteUser({
+                        variables: { userEmail: user.email, meetingId },
+                    });
+                    router.push(redirectUrl);
+                }
+            }
+        });
+    };
 
     const logout = () => {
         signOut(auth);
         removeLocalStorage("authToken");
         router.reload();
     };
-    return { login, logout };
+    return { login, logout, inviteLogin };
 };
