@@ -34,6 +34,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
         log: initialLog?.meetingLogByPk?.log,
         ownerId: initialLog?.meetingLogByPk?.ownerId,
         meetingUsers: initialLog?.meetingLogByPk?.meetingUsers,
+        title: initialLog?.meetingLogByPk?.title,
     });
 
     const { data } = useRefreshMeetingLogSubscription({
@@ -51,6 +52,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
             ownerId: data?.meetingLogByPk?.ownerId,
             log: data?.meetingLogByPk?.log,
             meetingUsers: data?.meetingLogByPk?.meetingUsers,
+            title: data?.meetingLogByPk.title,
         });
     }, [data]);
     return { log, ownerId, meetingUsers };

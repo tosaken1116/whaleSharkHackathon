@@ -24,3 +24,8 @@ export type chatType = {
 export type useChatGPTDataHandleType = {
     data: string;
 };
+
+export type MarkdownProps = {
+    rawText: string;
+    title: string;
+};

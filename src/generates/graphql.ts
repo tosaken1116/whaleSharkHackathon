@@ -1179,7 +1179,7 @@ export type GetMeetingLogQueryVariables = Exact<{
 }>;
 
 
-export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, closedAt?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+export type GetMeetingLogQuery = { __typename?: 'query_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, closedAt?: string | null, title?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 export type GetMeetingDocumentsQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -1200,7 +1200,7 @@ export type RefreshMeetingLogSubscriptionVariables = Exact<{
 }>;
 
 
-export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
+export type RefreshMeetingLogSubscription = { __typename?: 'subscription_root', meetingLogByPk?: { __typename?: 'MeetingLog', log: string, ownerId?: string | null, title?: string | null, meetingUsers: Array<{ __typename?: 'MeetingUsers', userDetail?: { __typename?: 'Users', email: string, iconPath?: string | null, userName?: string | null } | null }> } | null };
 
 
 export const UpdateUserNameDocument = gql`
@@ -1431,6 +1431,7 @@ export const GetMeetingLogDocument = gql`
     }
     ownerId
     closedAt
+    title
   }
 }
     `;
@@ -1554,6 +1555,7 @@ export const RefreshMeetingLogDocument = gql`
       }
     }
     ownerId
+    title
   }
 }
     `;

@@ -28,6 +28,7 @@
         "dotenv": "^16.0.3",
         "eslint": "8.38.0",
         "eslint-config-next": "13.3.0",
+        "file-saver": "^2.0.5",
         "graphql-ws": "^5.12.1",
         "next": "13.3.0",
         "pnpm": "^8.2.0",
@@ -50,6 +51,7 @@
         "@graphql-codegen/typescript": "^3.0.3",
         "@graphql-codegen/typescript-operations": "^3.0.3",
         "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+        "@types/file-saver": "^2.0.5",
         "@types/react-speech-recognition": "^3.9.2",
         "@types/regenerator-runtime": "^0.13.1",
         "graphql": "^16.6.0"
