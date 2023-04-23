@@ -9,11 +9,25 @@ export default function MeetingList() {
             <MeetingDocuments />
             <Divider orientation="vertical" flexItem />
             <Stack>
-                <Box sx={{ height: "25vh", p: 2 }}>
-                    <CreateRoom />
-                </Box>
-                <Divider />
-                <InvitedRoomList />
+                <Stack
+                    sx={{ bgcolor: "#fef4e8", width: "50vw", height: "100vh" }}
+                >
+                    <Box
+                        sx={{
+                            height: "25vh",
+                            width: "46vw",
+                            background:
+                                "linear-gradient(106.73deg, #ddf4fc 0.46%, #e8ebfd 100.87%)",
+                            borderRadius: "10px",
+                            m: 2,
+                        }}
+                    >
+                        <CreateRoom />
+                    </Box>
+                    <Divider />
+
+                    <InvitedRoomList />
+                </Stack>
             </Stack>
         </Stack>
     );
