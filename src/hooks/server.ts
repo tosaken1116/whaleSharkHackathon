@@ -42,7 +42,7 @@ export const useMeetingLog = ({ meetingId }: UseMeetingLogProps) => {
         },
         onError: (e) => {
             if (meetingId != "") {
-                errorHandle({ message: `議事録の同期に失敗しました:${e}` });
+                console.log(e);
             }
         },
     });
@@ -71,7 +71,7 @@ export const useAuthentication = () => {
     const app = initializeApp(firebaseConfig);
     const { removeLocalStorage, setLocalStorage } = useLocalStorage();
     const auth = getAuth(app);
-    const login = () => {
+    const login = (isRedirect?: boolean) => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider);
 
@@ -86,10 +86,14 @@ export const useAuthentication = () => {
                 });
                 user.getIdToken().then((token) => {
                     setLocalStorage({ authToken: token, userId: user.uid });
-                    router.push("/meeting");
+                    if (isRedirect) {
+                        router.push("/meeting");
+                    }
                 });
+                return user.email;
             }
         });
+        return "";
     };
 
     const logout = () => {
