@@ -2,7 +2,7 @@ import {
     useCreateRoomMutation,
     useInviteMeetingUserMutation,
 } from "@/generates/graphql";
-import { useLoading, useLogModal } from "@/hooks/client";
+import { useLoading, useLocalStorage, useLogModal } from "@/hooks/client";
 import { meetingAtom } from "@/state/meetingAtom";
 import { userAtom } from "@/state/userAtom";
 import LoginIcon from "@mui/icons-material/Login";
@@ -14,7 +14,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 export default function CreateRoom() {
     const router = useRouter();
     const [{ meetingId }, setMeetingState] = useRecoilState(meetingAtom);
-    const { userId, email } = useRecoilValue(userAtom);
+    const { email } = useRecoilValue(userAtom);
+    const { getLocalStorage } = useLocalStorage();
+    const userId = getLocalStorage("userId") ?? "";
     const { errorHandle, successHandle } = useLogModal();
     const [title, setTitle] = useState("");
 
